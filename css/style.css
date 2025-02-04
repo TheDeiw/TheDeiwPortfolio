@@ -1,0 +1,51 @@
+body {
+    line-height: 1;
+    background-color: #121216;
+    font-family: 'Lexend Deca';
+    color: #FFFFFF;
+}
+
+.wrapper {
+    min-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+[class*="__container"]{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 15px;
+}
+@media (max-width: 1199.98px){
+    [class*="__container"]{
+        max-width: 970px;
+    }
+}
+@media (max-width: 990.98px){
+    [class*="__container"]{
+        max-width: 750px;
+    }
+}
+@media (max-width: 767.98px){
+    [class*="__container"]{
+        max-width: none;
+    }
+}
+
+.header {
+}
+.header__container {
+}
+.header__logo {
+}
+.header__menu {
+}
+.menu {
+}
+.menu__list {
+}
+.menu__item {
+}
+.menu__link {
+}
