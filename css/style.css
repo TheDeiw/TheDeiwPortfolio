@@ -5,6 +5,18 @@ body {
     color: #FFFFFF;
 }
 
+a {
+    text-decoration: none;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+
+/* ======================================= */
 .wrapper {
     min-height: 100%;
     overflow: hidden;
@@ -12,6 +24,7 @@ body {
     flex-direction: column;
 }
 
+/* ======================================= */
 [class*="__container"]{
     max-width: 1200px;
     margin: 0 auto;
@@ -33,19 +46,89 @@ body {
     }
 }
 
-.header {
-}
+/* ======================================= */
+.header {}
 .header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px, 0px;
 }
 .header__logo {
+    width: 52px;
+    height: 73px;
+}
+.logo__image{
+    width: 52px;
+    height: 73px;
 }
 .header__menu {
+    
 }
-.menu {
-}
+
+/* ======================================= */
+.menu {}
 .menu__list {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
 }
 .menu__item {
+    display: flex;
+    padding: 8px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 .menu__link {
+    color: var(--shade1, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+}
+
+/* ======================================= */
+.header__translator {
+}
+.translator__list {
+    display: flex;
+    gap: 10px;
+}
+.translator__item {
+}
+#en {
+    color: var(--shade1, #FFF);
+    font-family: "Lexend Deca";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    padding: 3px;
+}
+#ua {
+    color: var(--shade1, #FFF);
+    font-family: "Lexend Deca";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    padding: 3px
+}
+.translator__item {
+    transition: background-color 0.3s ease, color 0.3s ease; /* Додаємо плавність для фону та кольору тексту */
+    cursor: pointer; /* Змінює курсор для наочності */
+}
+
+.translator__selected {
+    background-color: #464FEE;
+    border-radius: 5px;
+    color: #FFF; /* Щоб текст залишався читабельним */
+}
+
+.en-style{
+    font-family: "Lexend Deca";
+}
+.ua-style{
+    font-family: "Geologica";
 }

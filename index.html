@@ -17,25 +17,35 @@
 	<div class="wrapper">
 		<header class="header">
 			<div class="header__container">
-				<a href="" class="header__logo">TheDeiw</a>
+				<a href="" class="header__logo"> <img class="logo__image" src="img/Logo.svg"> </a>
 				<nav class="header__menu menu">
 					<ul class="menu__list">
 						<li class="menu__item">
-							<a href="" class="menu__link">About me</a>
+							<a href="" class="menu__link" data-key="about_me">About me</a>
 						</li>
 						<li class="menu__item">
-							<a href="" class="menu__link">Games</a>
+							<a href="" class="menu__link" data-key="games">Games</a>
 						</li>
 						<li class="menu__item">
-							<a href="" class="menu__link">Projects</a>
+							<a href="" class="menu__link" data-key="projects">Projects</a>
 						</li>
 						<li class="menu__item">
-							<a href="" class="menu__link">Download games</a>
+							<a href="" class="menu__link" data-key="download_games">Download games</a>
 						</li>
 					</ul>
 				</nav>
-
+				<div class="header__translator">
+					<div class="translator__list">
+						<div class="translator__item translator__selected" id="en">
+							EN
+						</div>
+						<div class="translator__item" id="ua">
+							UA
+						</div>
+					</div>
+				</div>
 			</div>
+			
 		</header>
 
 		<main class="page">
@@ -43,9 +53,11 @@
 		</main>
 
 		<footer class="footer">
-
 		</footer>
 	</div>
+
+	<script src="js/text_languages.js"></script>
+	<script src="js/translation.js"></script>
 </body>
 
 </html>
