@@ -9,13 +9,21 @@ a {
     text-decoration: none;
 }
 
+button{
+    padding: 0;
+    border: none;
+    background: none;
+    text-decoration: none;
+    font: inherit;
+}
+
 ul,
 ol,
 li {
     list-style: none;
 }
 
-
+/* wrapper
 /* ======================================= */
 .wrapper {
     min-height: 100%;
@@ -24,6 +32,7 @@ li {
     flex-direction: column;
 }
 
+/* media requests
 /* ======================================= */
 [class*="__container"]{
     max-width: 1200px;
@@ -46,8 +55,9 @@ li {
     }
 }
 
+/* header
 /* ======================================= */
-.header {}
+/*.header {}*/
 .header__container {
     display: flex;
     justify-content: space-between;
@@ -62,12 +72,11 @@ li {
     width: 52px;
     height: 73px;
 }
-.header__menu {
-    
-}
+/*.header__menu {    }*/
 
+/* menu
 /* ======================================= */
-.menu {}
+/*.menu {}*/
 .menu__list {
     display: flex;
     align-items: flex-start;
@@ -88,15 +97,47 @@ li {
     line-height: 24px; /* 150% */
 }
 
-/* ======================================= */
-.header__translator {
+.header__menu_games{
+    position: relative;
 }
+.menu__link_downloader{
+    all: unset;
+    color: #464FEE;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    cursor: pointer;
+}
+.menu_games__list{
+    position: absolute;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+    /* transition: max-height 0.4s ease-out, opacity 0.3s ease-out; */
+}
+/* .menu_games__list.active {
+    max-height: 150px; 
+    opacity: 1;
+} */
+.menu_games__item {
+    padding: 10px;
+}
+.menu_games__link{
+    color: var(--shade1, #FFF);
+}
+
+
+/* translator
+/* ======================================= */
+/*.header__translator {}*/
 .translator__list {
     display: flex;
     gap: 10px;
 }
-.translator__item {
-}
+/*.translator__item {}*/
 #en {
     color: var(--shade1, #FFF);
     font-family: "Lexend Deca";

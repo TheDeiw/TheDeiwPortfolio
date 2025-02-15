@@ -30,22 +30,21 @@
 							<a href="" class="menu__link" data-key="projects">Projects</a>
 						</li>
 						<li class="menu__item">
-							<a href="" class="menu__link" data-key="download_games">Download games</a>
+							<div class="header__menu_games">
+								<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
+							</div>
 						</li>
 					</ul>
 				</nav>
+
 				<div class="header__translator">
 					<div class="translator__list">
-						<div class="translator__item translator__selected" id="en">
-							EN
-						</div>
-						<div class="translator__item" id="ua">
-							UA
-						</div>
+						<div class="translator__item translator__selected" id="en">EN</div>
+						<div class="translator__item" id="ua">UA</div>
 					</div>
 				</div>
+				
 			</div>
-			
 		</header>
 
 		<main class="page">
@@ -54,10 +53,16 @@
 
 		<footer class="footer">
 		</footer>
+
+		<ul class="menu_games__list" id="dropdownMenu">
+			<li class="menu_games__item"><a href="" class="menu_games__link">Blocky</a></li>
+			<li class="menu_games__item"><a href="" class="menu_games__link">Fall Balls</a></li>
+		</ul>
 	</div>
 
 	<script src="js/text_languages.js"></script>
 	<script src="js/translation.js"></script>
+	<script src="js/menu_control.js"></script>
 </body>
 
 </html>
