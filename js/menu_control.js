@@ -1,10 +1,3 @@
-// const button = document.querySelector('.menu__link_downloader');
-
-// button.addEventListener('click', ()=>{
-// 	button.classList.toggle('active');
-// 	button.setAttribute('aria-expanded', button.classList.contains('active') ? 'true' : 'false');
-// });
-
 document.addEventListener("DOMContentLoaded", function () {
 	const dropdownBtn = document.getElementById("dropdownBtn");
 	const dropdownMenu = document.getElementById("dropdownMenu");

@@ -57,7 +57,13 @@ li {
 
 /* header
 /* ======================================= */
-/*.header {}*/
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
 .header__container {
     display: flex;
     justify-content: space-between;
@@ -172,4 +178,28 @@ li {
 }
 .ua-style{
     font-family: "Geologica";
+}
+
+
+/* ======================================= */
+.page {
+}
+.page__main {
+}
+.main-block {
+}
+.main-block__container {
+    display: block;
+    justify-content: center;
+}
+.main-block__logo {
+    width: 100%;  
+    height: 400px;  /* Або інше значення */
+    display: block;
+    position: relative;
+}
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
