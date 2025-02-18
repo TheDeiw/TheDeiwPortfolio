@@ -1,7 +1,7 @@
 body {
     line-height: 1;
     background-color: #121216;
-    font-family: 'Lexend Deca';
+    margin: 0;
     color: #FFFFFF;
 }
 
@@ -164,7 +164,7 @@ li {
     padding: 3px
 }
 .translator__item {
-    transition: background-color 0.3s ease, color 0.3s ease; /* Додаємо плавність для фону та кольору тексту */
+    transition: background-color 0.5s ease, color 0.5s ease; /* Додаємо плавність для фону та кольору тексту */
     cursor: pointer; /* Змінює курсор для наочності */
 }
 
@@ -188,6 +188,7 @@ li {
 .page__main {
 }
 .main-block {
+    position: relative;
 }
 .main-block__container {
     display: block;
@@ -203,4 +204,42 @@ canvas {
     display: block;
     width: 100%;
     height: 100%;
+}
+.page__background_gradient{
+    bottom: 0;
+    right: 0px;
+    position: absolute;
+    width: 510.712px;
+    height: 1109.345px;
+    transform: rotate(51.133deg);
+    flex-shrink: 0;
+    border-radius: 233.5px;
+    background: linear-gradient(180deg, rgba(71, 79, 236, 0.27) 0%, rgba(69, 78, 234, 0.27) 100%);
+    filter: blur(150px);
+    z-index: -10;
+}
+.page__background_gradient2{
+    bottom: 0;
+    left: 0px;
+    position: absolute;
+    width: 250px;
+    height: 654px;
+    flex-shrink: 0;
+    background: rgba(88, 120, 246, 0.25);
+    filter: blur(125px);
+}
+.main-block__heading{
+    position: relative;
+    top: -10vh;
+    margin: 0 5%;
+    color: #FFF;
+    font-size: 90px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 108px */
+    letter-spacing: -0.9px;
+    text-transform: capitalize;
+}
+.main-block__heading_TheDeiw{
+    color: #464FEE;
 }

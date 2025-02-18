@@ -135,9 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const light = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(light);
 
-    const pointLight = new THREE.PointLight(0xffffff, 2);
-    pointLight.position.set(5, 5, 5);
+    const pointLight = new THREE.PointLight(0xffffff, 3);
+    pointLight.position.set(-2, 2, 4);
     scene.add(pointLight);
+
 
     // Завантажуємо модель
     let loader = new THREE.GLTFLoader();
