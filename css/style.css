@@ -58,7 +58,7 @@ li {
 /* header
 /* ======================================= */
 .header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -102,7 +102,9 @@ li {
     font-weight: 600;
     line-height: 24px; /* 150% */
 }
-
+.menu__link:hover {
+    text-decoration: underline;
+}
 .header__menu_games{
     position: relative;
 }
@@ -115,24 +117,34 @@ li {
     cursor: pointer;
 }
 .menu_games__list{
+    width: 100%;
+    justify-content: center;
     position: absolute;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     list-style: none;
     padding: 10px;
     border-radius: 8px;
-    display: none;
     z-index: 1000;
     background-color: #121216;
-    /* transition: max-height 0.4s ease-out, opacity 0.3s ease-out; */
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out, visibility 0s linear 0.4s;
 }
-/* .menu_games__list.active {
-    max-height: 150px; 
+
+.menu_games__list.active {
+    max-height: auto; /* Або більше, якщо потрібно */
     opacity: 1;
-} */
+    visibility: visible;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+}
+
 .menu_games__item {
+    text-align: center;
     padding: 10px;
 }
 .menu_games__link{
+    font-family: "Lexend Deca";
     color: var(--shade1, #FFF);
 }
 
