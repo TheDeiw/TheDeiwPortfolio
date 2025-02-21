@@ -79,7 +79,9 @@ li {
     height: 73px;
 }
 /*.header__menu {    }*/
-
+.header__menu_icon{
+    display: none;
+}
 /* menu
 /* ======================================= */
 /*.menu {}*/
@@ -148,6 +150,17 @@ li {
     color: var(--shade1, #FFF);
 }
 
+.menu_games__button{
+    display: flex;
+    gap: 10px;
+}
+.menu_games__drop-down{
+    rotate: 0;
+    transition: transform ease 0.3s 0s;
+}
+.menu_games__drop-down.active{
+    transform: rotate(-180deg);
+}
 
 /* translator
 /* ======================================= */

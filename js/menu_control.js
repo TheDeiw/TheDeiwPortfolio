@@ -24,16 +24,19 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const downloadButton = document.querySelector(".menu__link_downloader");
 	const gamesList = document.querySelector(".menu_games__list");
+	const dropdown = document.querySelector(".menu_games__drop-down");
 
 	if (downloadButton && gamesList) {
 		 downloadButton.addEventListener("click", function () {
 			  gamesList.classList.toggle("active");
+			  dropdown.classList.toggle("active");
 		 });
 
 		 // Закриття меню при кліку поза ним
 		 document.addEventListener("click", function (event) {
 			  if (!downloadButton.contains(event.target) && !gamesList.contains(event.target)) {
 					gamesList.classList.remove("active");
+					dropdown.classList.remove("active");
 			  }
 		 });
 	}
