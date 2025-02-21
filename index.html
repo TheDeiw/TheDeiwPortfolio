@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/adaptive_header.css">
 	<title>TheDeiw Potrfolio</title>
 </head>
 
@@ -31,19 +32,27 @@
 						</li>
 						<li class="menu__item">
 							<div class="header__menu_games">
-								<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
+								<div class="menu_games__button">
+									<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
+									<img src="img/Drop Down.svg" alt="" class="menu_games__drop-down">
+								</div>
+								<ul class="menu_games__list" id="dropdownMenu">
+									<li class="menu_games__item"><a href="" class="menu_games__link">Blocky</a></li>
+									<li class="menu_games__item"><a href="" class="menu_games__link">Fall Balls</a></li>
+								</ul>
 							</div>
 						</li>
 					</ul>
 				</nav>
-
 				<div class="header__translator">
 					<div class="translator__list">
 						<div class="translator__item translator__selected" id="en">EN</div>
 						<div class="translator__item" id="ua">UA</div>
 					</div>
 				</div>
-				
+				<div class="header__menu_icon">
+					<span></span>
+				</div>
 			</div>
 		</header>
 
@@ -61,15 +70,13 @@
 		<footer class="footer">
 		</footer>
 
-		<ul class="menu_games__list" id="dropdownMenu">
-			<li class="menu_games__item"><a href="" class="menu_games__link">Blocky</a></li>
-			<li class="menu_games__item"><a href="" class="menu_games__link">Fall Balls</a></li>
-		</ul>
+		
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
+	<script src="js/adaptability.js"></script>
 	<script src="js/3d_logo.js"></script>
 	<script src="js/text_languages.js"></script>
 	<script src="js/translation.js"></script>
