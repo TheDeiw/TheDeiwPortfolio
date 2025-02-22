@@ -51,12 +51,12 @@
 		padding: 10px, 0px;
 	}
 	.header__logo {
-	width: 35px;
-	height: 50px;
+		width: 40px;
+		height: 50px;
   }
   .logo__image{
-	width: 35px;
-	height: 50px;
+		width: 40px;
+		height: 50px;
   }
 	.menu__list {
 		background-color: #121216;
@@ -72,10 +72,9 @@
 	}
 	.menu__item {
 		display: flex;
-		padding: 3px 5px;
+		padding: 8px 5px;
 		justify-content: center;
 		align-items: center;
-		gap: 8px;
 	}
 	.menu__link {
 		color: var(--shade1, #FFF);
@@ -86,6 +85,18 @@
 	}
 	.menu__link:hover {
 		text-decoration: underline;
+	}
+	.header__menu_games{
+		width: 100%;
+		margin-right: 10px;
+		left: 0;
+	}
+	.menu_games__list{
+		margin-top: 10px;
+		position: absolute;
+		width: 100%;
+		left: 0;
+		padding: 0;
 	}
 
 	#en {

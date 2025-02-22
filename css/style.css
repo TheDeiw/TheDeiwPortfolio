@@ -152,6 +152,7 @@ li {
 
 .menu_games__button{
     display: flex;
+    justify-content: center;
     gap: 10px;
 }
 .menu_games__drop-down{
@@ -258,7 +259,8 @@ canvas {
     top: -10vh;
     margin: 0 5%;
     color: #FFF;
-    font-size: 90px;
+    /*font-size: 90px;*/
+    font-size: 6vw;
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 108px */
