@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loader.load("img/3d/TheDeiw.gltf", (gltf) => {
         model = gltf.scene;
         if (isMobile.any()){
-            model.scale.set(0.07, 0.07, 0.07);
+            model.scale.set(0.08, 0.08, 0.08);
         } else {
             model.scale.set(0.12, 0.12, 0.12);
         }

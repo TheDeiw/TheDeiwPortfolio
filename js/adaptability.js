@@ -34,7 +34,7 @@ const iconMenu = document.querySelector('.header__menu_icon');
 if (iconMenu){
 	const iconBody = document.querySelector('.menu__list');
 	iconMenu.addEventListener("click", function(e){
-		iconMenu.classList.toggle('active');
+		iconMenu.classList.toggle('open');
 		iconBody.classList.toggle('active');
 	})
 }
