@@ -38,29 +38,45 @@ document.addEventListener("DOMContentLoaded", () => {
     let floatOffset = 0; // Для ефекту невагомості
     let isDragging = false;
     let previousMouseX = 0;
-    let velocity = 0; // Швидкість обертання
+    let previousMouseY = 0;
+    let velocityX = 0; // Швидкість обертання по X
+    let velocityY = 0; // Швидкість обертання по Y
 
     loader.load("img/3d/TheDeiw.gltf", (gltf) => {
         model = gltf.scene;
-        model.scale.set(0.12, 0.12, 0.12);
+        if (isMobile.any()){
+            model.scale.set(0.07, 0.07, 0.07);
+        } else {
+            model.scale.set(0.12, 0.12, 0.12);
+        }
         scene.add(model);
     }, undefined, (error) => {
         console.error("Помилка завантаження моделі", error);
     });
 
-    // Анімація обертання
+    // Обмеження для нахилу по Y (±10 градусів)
+    const minRotationX = THREE.MathUtils.degToRad(-10); // -10 градусів
+    const maxRotationX = THREE.MathUtils.degToRad(10);  // 10 градусів
+
+    // Анімація (ефект невагомості + обертання)
     function animate() {
         requestAnimationFrame(animate);
 
         if (model) {
-            // Ефект невагомості (легке піднімання-опускання)
+            // Ефект невагомості
             floatOffset += 0.02;
-            model.position.y = Math.sin(floatOffset) * 0.01; // Коливання в межах ±0.1
+            model.position.y = Math.sin(floatOffset) * 0.1;
 
             // Обертання по інерції
             if (!isDragging) {
-                velocity *= 0.95; // Поступове зменшення швидкості
-                model.rotation.y += velocity;
+                velocityX *= 0.95;
+                velocityY *= 0.95;
+
+                model.rotation.y += velocityX;
+                model.rotation.x += velocityY;
+
+                // Обмежуємо нахил по осі X
+                model.rotation.x = THREE.MathUtils.clamp(model.rotation.x, minRotationX, maxRotationX);
             }
         }
 
@@ -72,14 +88,25 @@ document.addEventListener("DOMContentLoaded", () => {
     container.addEventListener("mousedown", function (event) {
         isDragging = true;
         previousMouseX = event.clientX;
+        previousMouseY = event.clientY;
     });
 
     container.addEventListener("mousemove", function (event) {
         if (isDragging && model) {
             const deltaX = event.clientX - previousMouseX;
-            model.rotation.y += deltaX * 0.01;
-            velocity = deltaX * 0.002; // Фіксуємо швидкість
+            const deltaY = event.clientY - previousMouseY;
+
+            model.rotation.y += deltaX * 0.01; // Горизонтальне обертання
+            model.rotation.x += deltaY * 0.01; // Вертикальне обертання
+
+            // Обмежуємо нахил по осі X
+            model.rotation.x = THREE.MathUtils.clamp(model.rotation.x, minRotationX, maxRotationX);
+
+            velocityX = deltaX * 0.002;
+            velocityY = deltaY * 0.002;
+
             previousMouseX = event.clientX;
+            previousMouseY = event.clientY;
         }
     });
 
@@ -91,8 +118,40 @@ document.addEventListener("DOMContentLoaded", () => {
         isDragging = false;
     });
 
+    // Додано: Взаємодія з сенсорними екранами
+    container.addEventListener("touchstart", function (event) {
+        if (event.touches.length === 1) {
+            isDragging = true;
+            previousMouseX = event.touches[0].clientX;
+            previousMouseY = event.touches[0].clientY;
+        }
+    });
+
+    container.addEventListener("touchmove", function (event) {
+        if (isDragging && model && event.touches.length === 1) {
+            const deltaX = event.touches[0].clientX - previousMouseX;
+            const deltaY = event.touches[0].clientY - previousMouseY;
+
+            model.rotation.y += deltaX * 0.01;
+            model.rotation.x += deltaY * 0.01;
+
+            // Обмеження нахилу
+            model.rotation.x = THREE.MathUtils.clamp(model.rotation.x, minRotationX, maxRotationX);
+
+            velocityX = deltaX * 0.002;
+            velocityY = deltaY * 0.002;
+
+            previousMouseX = event.touches[0].clientX;
+            previousMouseY = event.touches[0].clientY;
+        }
+    });
+
+    container.addEventListener("touchend", function () {
+        isDragging = false;
+    });
+
     // Оновлення розміру при зміні вікна
-    window.addEventListener("resize", () => {
+    window.addEventListener("resize", function () {
         renderer.setSize(container.clientWidth, container.clientHeight);
         camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
