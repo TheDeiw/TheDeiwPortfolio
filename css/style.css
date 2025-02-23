@@ -222,7 +222,7 @@ li {
 }
 .main-block__logo {
     width: 100%;  
-    height: 75vh;  /* Або інше значення */
+    height: 75vh;
     display: block;
     position: relative;
 }
@@ -232,11 +232,13 @@ canvas {
     height: 100%;
 }
 .page__background_gradient{
-    bottom: 0;
+    top: 0;
     right: 0px;
     position: absolute;
-    width: 510.712px;
-    height: 1109.345px;
+    /*width: 510.712px;
+    height: 1109.345px;*/
+    width: 30.61vw;
+    height: 92.45vh;
     transform: rotate(51.133deg);
     flex-shrink: 0;
     border-radius: 233.5px;
@@ -248,8 +250,10 @@ canvas {
     bottom: 0;
     left: 0px;
     position: absolute;
-    width: 250px;
-    height: 654px;
+    /*width: 250px;
+    height: 654px;*/
+    width: 13.02vw;
+    height: 54.5vh;
     flex-shrink: 0;
     background: rgba(88, 120, 246, 0.25);
     filter: blur(125px);
@@ -270,4 +274,16 @@ canvas {
 }
 .main-block__heading_TheDeiw{
     color: #464FEE;
+}
+
+.main-block__sub-heading{
+    margin-top: 2vh;
+    color: #FFF;
+    /*font-size: 32px;*/
+    font-size: max(2vw, 14px);
+    font-style: normal;
+    font-weight: 200;
+    line-height: 118%; /* 37.76px */
+    letter-spacing: -0.32px;
+    text-transform: none;
 }

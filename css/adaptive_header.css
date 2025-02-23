@@ -110,4 +110,15 @@
 		padding: 3px;
   }
 
+  .main-block__logo {
+	height: 60vh;
+  }
+  .page__background_gradient{
+	filter: blur(100px);
+	left: 50%;
+  }
+  .page__background_gradient2{
+	top: 0;
+  }
+
 }
