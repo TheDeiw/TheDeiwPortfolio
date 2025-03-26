@@ -9,7 +9,7 @@ a {
     text-decoration: none;
 }
 
-button{
+button {
     padding: 0;
     border: none;
     background: none;
@@ -23,6 +23,10 @@ li {
     list-style: none;
 }
 
+h1 {
+    all: unset;
+}
+
 /* wrapper
 /* ======================================= */
 .wrapper {
@@ -34,24 +38,33 @@ li {
 
 /* media requests
 /* ======================================= */
-[class*="__container"]{
+[class*="__container"] {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0px 15px;
 }
-@media (max-width: 1199.98px){
-    [class*="__container"]{
+
+@media (max-width: 1199.98px) {
+    [class*="__container"] {
         max-width: 970px;
     }
 }
-@media (max-width: 990.98px){
-    [class*="__container"]{
+
+@media (max-width: 990.98px) {
+    [class*="__container"] {
         max-width: 750px;
     }
 }
-@media (max-width: 767.98px){
-    [class*="__container"]{
+
+@media (max-width: 767.98px) {
+    [class*="__container"] {
         max-width: none;
+    }
+}
+
+@media (min-width: 2500px) {
+    [class*="__container"] {
+        max-width: 1920px;
     }
 }
 
@@ -63,25 +76,35 @@ li {
     left: 0;
     width: 100%;
     z-index: 10;
+    transition: background-color 0.5s ease;
 }
+
+.header.scrolled{
+    background-color: #121216;
+}
+
 .header__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px, 0px;
 }
+
 .header__logo {
     width: 52px;
     height: 73px;
 }
-.logo__image{
+
+.logo__image {
     width: 52px;
     height: 73px;
 }
+
 /*.header__menu {    }*/
-.header__menu_icon{
+.header__menu_icon {
     display: none;
 }
+
 /* menu
 /* ======================================= */
 /*.menu {}*/
@@ -90,6 +113,7 @@ li {
     align-items: flex-start;
     gap: 25px;
 }
+
 .menu__item {
     display: flex;
     padding: 8px 14px;
@@ -97,28 +121,35 @@ li {
     align-items: center;
     gap: 8px;
 }
+
 .menu__link {
     color: var(--shade1, #FFF);
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
 }
+
 .menu__link:hover {
     text-decoration: underline;
 }
-.header__menu_games{
+
+.header__menu_games {
     position: relative;
 }
-.menu__link_downloader{
+
+.menu__link_downloader {
     all: unset;
     color: #464FEE;
     font-size: 16px;
     font-weight: 600;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
     cursor: pointer;
 }
-.menu_games__list{
+
+.menu_games__list {
     width: 100%;
     justify-content: center;
     position: absolute;
@@ -135,7 +166,8 @@ li {
 }
 
 .menu_games__list.active {
-    max-height: auto; /* Або більше, якщо потрібно */
+    max-height: auto;
+    /* Або більше, якщо потрібно */
     opacity: 1;
     visibility: visible;
     transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
@@ -145,27 +177,31 @@ li {
     text-align: center;
     padding: 10px;
 }
-.menu_games__link{
+
+.menu_games__link {
     font-family: "Lexend Deca";
     color: var(--shade1, #FFF);
 }
 
-.menu_games__button{
+.menu_games__button {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
-.menu_games__drop-down{
+
+.menu_games__drop-down {
     rotate: 0;
     transition: transform ease 0.3s 0s;
 }
-.menu_games__drop-down.active{
+
+.menu_games__drop-down.active {
     transform: rotate(-180deg);
 }
 
-.header__right_side{
+.header__right_side {
     display: flex;
 }
+
 /* translator
 /* ======================================= */
 /*.header__translator {}*/
@@ -173,6 +209,7 @@ li {
     display: flex;
     gap: 10px;
 }
+
 /*.translator__item {}*/
 #en {
     color: var(--shade1, #FFF);
@@ -180,61 +217,74 @@ li {
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 120% */
+    line-height: 24px;
+    /* 120% */
     padding: 3px;
 }
+
 #ua {
     color: var(--shade1, #FFF);
     font-family: "Lexend Deca";
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 120% */
+    line-height: 24px;
+    /* 120% */
     padding: 3px
 }
+
 .translator__item {
-    transition: background-color 0.5s ease, color 0.5s ease; /* Додаємо плавність для фону та кольору тексту */
-    cursor: pointer; /* Змінює курсор для наочності */
+    transition: background-color 0.5s ease, color 0.5s ease;
+    /* Додаємо плавність для фону та кольору тексту */
+    cursor: pointer;
+    /* Змінює курсор для наочності */
 }
 
 .translator__selected {
     background-color: #464FEE;
     border-radius: 5px;
-    color: #FFF; /* Щоб текст залишався читабельним */
+    color: #FFF;
+    /* Щоб текст залишався читабельним */
 }
 
-.en-style{
+.en-style {
     font-family: "Lexend Deca";
 }
-.ua-style{
+
+.ua-style {
     font-family: "Geologica";
 }
 
 
 /* ======================================= */
-.page {
-}
-.page__main {
-}
+.page {}
+
+.page__main {}
+
 .main-block {
     position: relative;
 }
+
 .main-block__container {
     display: block;
     justify-content: center;
 }
+
 .main-block__logo {
-    width: 100%;  
+    width: 100%;
     height: 75vh;
     display: block;
     position: relative;
+    touch-action: none;
 }
+
 canvas {
     display: block;
     width: 100%;
     height: 100%;
 }
-.page__background_gradient{
+
+.page__background_gradient {
     top: 0;
     right: 0px;
     position: absolute;
@@ -249,7 +299,8 @@ canvas {
     filter: blur(150px);
     z-index: -10;
 }
-.page__background_gradient2{
+
+.page__background_gradient2 {
     bottom: 0;
     left: 0px;
     position: absolute;
@@ -262,7 +313,8 @@ canvas {
     filter: blur(125px);
     z-index: -10;
 }
-.main-block__heading{
+
+.main-block__heading {
     position: relative;
     top: -12vh;
     margin: 0 5%;
@@ -271,15 +323,17 @@ canvas {
     font-size: max(6vw, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 108px */
+    line-height: 120%;
+    /* 108px */
     letter-spacing: -0.9px;
     text-transform: capitalize;
 }
-.main-block__heading_TheDeiw{
+
+.main-block__heading_TheDeiw {
     color: #464FEE;
 }
 
-.main-block__sub-heading{
+.main-block__sub-heading {
     margin-top: 2vh;
     color: #FFF;
     /*font-size: 32px;*/
@@ -287,7 +341,82 @@ canvas {
     font-style: normal;
     padding-right: 5%;
     font-weight: 150;
-    line-height: 118%; /* 37.76px */
+    line-height: 118%;
+    /* 37.76px */
     letter-spacing: -0.32px;
     text-transform: none;
 }
+
+/* ======================================= */
+.page__about_me {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+.about_me__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section_name {
+    text-align: left;
+    width: 100%;
+}
+
+.section_name__heading {
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    /* 72px */
+}
+
+.about_me__card {
+    display: flex;
+    width: 836px;
+    height: 351px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #30363D;
+    background: rgba(22, 27, 34, 0.80);
+}
+
+.card__avatar_name {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar_name__avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+}
+
+.avatar_name__name {
+
+}
+
+.name__my_name {
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 136.023%; /* 34.006px */
+}
+
+.name__small_description {
+    color: #C9D1D9;
+    font-feature-settings: 'salt' on;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 23px; /* 143.75% */
+}
+
+.card__desctiption {}

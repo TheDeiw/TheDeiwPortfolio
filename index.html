@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<meta name="google" content="notranslate">
+	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
@@ -18,7 +19,7 @@
 	<div class="wrapper">
 		<header class="header">
 			<div class="header__container">
-				<a href="" class="header__logo"> <img class="logo__image" src="img/Logo.svg"> </a>
+				<a href="" class="header__logo"> <img class="logo__image" src="assets/img/header/Logo.svg"> </a>
 				<nav class="header__menu menu">
 					<ul class="menu__list">
 						<li class="menu__item">
@@ -34,7 +35,7 @@
 							<div class="header__menu_games">
 								<div class="menu_games__button">
 									<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
-									<img src="img/Drop Down.svg" alt="" class="menu_games__drop-down">
+									<img src="assets/img/header/Drop Down.svg" alt="" class="menu_games__drop-down">
 								</div>
 								<ul class="menu_games__list" id="dropdownMenu">
 									<li class="menu_games__item"><a href="" class="menu_games__link">Blocky</a></li>
@@ -64,19 +65,36 @@
 			<section class="page__main main-block">
 				<div class="main-block__container">
 					<div class="main-block__logo" id="container3D"></div>
-					<div class="main-block__heading"> <span data-key="main_heading_begin">I’m</span> <span class="main-block__heading_TheDeiw" data-key="thedeiw">TheDeiw</span> <br> <span data-key="main_heading_end">Welcome to my site</span>
+					<div class="main-block__heading"> <h1 data-key="main_heading_begin">I’m</h1> <h1 class="main-block__heading_TheDeiw" data-key="thedeiw">TheDeiw</h1> 
+							<br> <h1 data-key="main_heading_end">Welcome to my site</h1>
 						<div class="main-block__sub-heading" data-key="sub_heading">Here you can see all my projects and download my games. I am glad to see you here</div>
 					</div>
 				</div>
 				<div class="page__background_gradient"></div>
 				<div class="page__background_gradient2"></div>
 			</section>
+			<section class="page__about_me">
+				<div class="about_me__container">
+					<div class="section_name"><h2 class="section_name__heading" data-key="about_me">About me</h2></div>
+					<div class="about_me__card">
+						<div class="card__avatar_name">
+							<img src="assets/img/about me/Avatar6.png" class="avatar_name__avatar">
+							<div class="avatar_name__name">
+								<div class="name__my_name" data-key="my_name">Chekhovskyi Dmytro</div>
+								<div class="name__small_description" ><span data-key="small_description">Junior Frontend developer, Unity developer, Photoshop editor</span> 
+									</br> <span class="name__small_description" data-key="city">Lviv, Ukraine</span>
+								</div>
+							</div>
+						</div>
+						<div class="card__desctiption"></div>
+					</div>
+				</div>
+			</section>
 		</main>
 
 		<footer class="footer">
 		</footer>
 
-		
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
