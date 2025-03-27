@@ -1,5 +1,5 @@
-@media (max-width: 767.98px){
-	.header__menu_icon{
+@media (max-width: 767.98px) {
+	.header__menu_icon {
 		display: block;
 		width: 25px;
 		height: 25px;
@@ -9,7 +9,8 @@
 		cursor: pointer;
 		transition: transform 330ms ease-out;
 	}
-	.header__menu_icon.open{
+
+	.header__menu_icon.open {
 		transform: rotate(-45deg);
 	}
 
@@ -18,31 +19,31 @@
 		border-radius: 5px;
 		width: 100%;
 		height: 4px;
-	 }
-	 
-	 .line-menu.half {
+	}
+
+	.line-menu.half {
 		width: 50%;
-	 }
-	 
-	 .line-menu.start {
+	}
+
+	.line-menu.start {
 		transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
 		transform-origin: right;
-	 }
-	 
-	 .open .line-menu.start {
+	}
+
+	.open .line-menu.start {
 		transform: rotate(-90deg) translateX(3px);
-	 }
-	 
-	 .line-menu.end {
+	}
+
+	.line-menu.end {
 		align-self: flex-end;
 		transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
 		transform-origin: left;
-	 }
-	 
-	 .open .line-menu.end {
+	}
+
+	.open .line-menu.end {
 		transform: rotate(-90deg) translateX(-3px);
-	 }
-	 
+	}
+
 
 	.header {
 		background-color: #121216;
@@ -51,22 +52,26 @@
 		left: 0;
 		width: 100%;
 		z-index: 10;
-		
-  }
-  .header__container {
+
+	}
+
+	.header__container {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 10px, 0px;
 	}
+
 	.header__logo {
 		width: 40px;
 		height: 50px;
-  }
-  .logo__image{
+	}
+
+	.logo__image {
 		width: 40px;
 		height: 50px;
-  }
+	}
+
 	.menu__list {
 		background-color: #121216;
 		position: fixed;
@@ -76,68 +81,138 @@
 		width: 100%;
 		padding: 5px;
 	}
-	.menu__list.active{
+
+	.menu__list.active {
 		left: 0;
 	}
+
 	.menu__item {
 		display: flex;
 		padding: 8px 5px;
 		justify-content: center;
 		align-items: center;
 	}
+
 	.menu__link {
 		color: var(--shade1, #FFF);
 		font-size: 16px;
 		font-style: normal;
 		font-weight: 600;
-		line-height: 24px; /* 150% */
+		line-height: 24px;
+		/* 150% */
 	}
-	.menu__link:hover {
-		text-decoration: underline;
-	}
-	.header__menu_games{
+	.header__menu_games {
 		width: 100%;
 		margin-right: 10px;
 		left: 0;
 	}
-	.menu_games__list{
+
+	.menu_games__list {
 		margin-top: 10px;
 		position: absolute;
 		width: 100%;
 		left: 0;
 		padding: 0;
 	}
+
 	.translator__list {
 		margin-right: 15px;
 	}
+
 	#en {
 		font-size: 16px;
-		line-height: 20px; /* 120% */
+		line-height: 20px;
+		/* 120% */
 		padding: 3px;
-  }
-  #ua {
-		font-size: 16px;
-		line-height: 20px; /* 120% */
-		padding: 3px;
-  }
+	}
 
-  .main-block__logo {
+	#ua {
+		font-size: 16px;
+		line-height: 20px;
+		/* 120% */
+		padding: 3px;
+	}
+
+	/* ================================================ */
+	.main-block__logo {
 		height: 50vh;
-  }
-  
-  .main-block__heading{
+	}
+
+	.main-block__heading {
 		top: 0;
-  }
-  .page__background_gradient{
+	}
+
+	/* ================================================ */
+	.page__background_gradient {
 		top: 0;
 		filter: blur(75px);
 		left: 50%;
-		width: 35.61vw;
+		width: 45.61vw;
 		height: 50.45vh;
-  }
-  .page__background_gradient2{
+	}
+
+	.page__background_gradient2 {
 		display: none;
 		top: 0;
-  }
+	}
+	.page__background_gradient3{
+		width: 50vw;
+		height: 60vh;
+		filter: blur(100px);
+		top: 10%;
+	}
+	/* ================================================ */
+	.about_me__card {
+		background: none;
+		border: none;
+		width: 90%;
+		padding: 5px;
+		text-align: center;
+	}
 
+	.card__avatar_name {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.card__avatar_name {
+		gap: 10px;
+	}
+
+	.avatar_name__avatar {
+		border-radius: 50%;
+	}
+
+	.card__desctiption {
+		line-height: 20px;
+		/* 153.846% */
+		letter-spacing: -0.20px;
+	}
+
+	.link_block__text{
+		display: none;
+	}
+	.link_block{
+		width: auto;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		align-items: center;
+		justify-content: center;
+		padding: 0%;
+
+	}
+	.link_block__image{
+		width: 20px;
+		height: 20px;
+		align-self: center;
+	}
+
+
+	.about_me__links_table {
+		grid-template-columns: repeat(6, 1fr); /* 2 колонки */
+		gap: 10px;
+		width: 90%;
+  }
 }
