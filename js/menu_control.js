@@ -22,7 +22,7 @@
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const downloadButton = document.querySelector(".menu__link_downloader");
+    const downloadButton = document.querySelector(".menu_games__button");
     const gamesList = document.querySelector(".menu_games__list");
     const dropdown = document.querySelector(".menu_games__drop-down");
 

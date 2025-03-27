@@ -174,6 +174,13 @@ h1 {
     position: relative;
 }
 
+.menu_games__button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
 .menu__link_downloader {
     all: unset;
     color: #464FEE;
@@ -181,11 +188,30 @@ h1 {
     font-weight: 600;
     line-height: 24px;
     /* 150% */
-    cursor: pointer;
+}
+
+.menu_games__button::before{
+    content: '';
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 3px;
+    background-color: #464FEE;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu_games__button:hover {
+    color: #464FEE;
+}
+
+.menu_games__button:hover::before {
+    transform: scaleX(1);
 }
 
 .menu_games__list {
     width: 100%;
+    left: -5px;
     justify-content: center;
     position: absolute;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
@@ -216,12 +242,6 @@ h1 {
 .menu_games__link {
     font-family: "Lexend Deca";
     color: var(--shade1, #FFF);
-}
-
-.menu_games__button {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
 }
 
 .menu_games__drop-down {
