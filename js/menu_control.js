@@ -50,3 +50,7 @@ document.addEventListener("scroll", () => {
         header.classList.remove("scrolled");
     }
 });
+
+document.querySelectorAll(".link_block").forEach((link) => {
+    link.style.setProperty("--link-color", link.getAttribute("data-color"));
+});
