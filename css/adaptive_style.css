@@ -75,6 +75,7 @@
 	.menu__list {
 		background-color: #121216;
 		position: fixed;
+		top: 45px;
 		left: -125%;
 		transition: left 0.3s ease 0s;
 		display: block;
@@ -166,7 +167,7 @@
 		background: none;
 		border: none;
 		width: 90%;
-		padding: 5px;
+		padding: 15px;
 		text-align: center;
 	}
 
@@ -214,5 +215,27 @@
 		grid-template-columns: repeat(6, 1fr); /* 2 колонки */
 		gap: 10px;
 		width: 90%;
+  }
+
+  /* ================================================ */
+  .projects_games__project_block {
+		flex-direction: column;
+		text-align: center;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+  }
+  .project_block__description{
+		align-items: center;
+		justify-content: space-around;
+		gap: 20px;
+  }
+  .project_block__description_text_box{
+		align-self: center;
+		gap: 10px;
+  }
+
+  .project_block__img{
+		width: 100%;
   }
 }
