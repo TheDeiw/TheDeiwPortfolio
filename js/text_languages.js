@@ -15,6 +15,12 @@ const translations = {
 							I also understand Frontend development. I have created various websites, including TheDeiwGames. <br>
 							I love creating and editing in Photoshop and working with design. <br>
 							Welcome to my portfolio, nice to meet you!`,
+        unity_game: "Unity game",
+        blocky_description:
+            "Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap.",
+        download_game: "Download game",
+        fall_balls_description:
+            "A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.",
     },
     ua: {
         about_me: "Про мене",
@@ -32,5 +38,11 @@ const translations = {
                             Також розбираюсь у Frontend-розробці. Створював різні сайти, зокрема TheDeiwGames.<br>
                             Обожнюю створювати та редагувати у Photoshop та працювати з дизайном.<br>
                             Вітаю Вас на своєму портфоліо, приємно познайомитись!`,
+        unity_game: "Гра на Unity",
+        blocky_description:
+            "<span style='font-weight:90'>Проста 3D головоломка з ортографічною камерою. Зробив по відео-уроку.<br>Ви граєте за червоний рямокутник, який треба визволити з цієї пастки.</span>",
+        download_game: "Завантажити гру",
+        fall_balls_description:
+            "<span style='font-weight:90'>Невелика гра, в якій потрібно ловити кульки різного кольору, щоб вони не потрапили в вічну темряву.</span>",
     },
 };

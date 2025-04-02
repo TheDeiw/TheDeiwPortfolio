@@ -225,6 +225,9 @@
 		align-items: center;
 		gap: 20px;
   }
+  .projects_games__project_block.inverse{
+		flex-direction: column;
+  }
   .project_block__description{
 		align-items: center;
 		justify-content: space-around;
@@ -237,5 +240,9 @@
 
   .project_block__img{
 		width: 100%;
+  }
+
+  .project_block__gradient_color{
+		filter: blur(90px);
   }
 }

@@ -561,8 +561,9 @@ canvas {
     padding-bottom: 10vh;
 }
 .projects_games__project_block {
+    margin-bottom: 1rem;
     display: flex;
-    gap: 10%;
+    gap: 5%;
     padding: 1rem;
     align-items: flex-start;
     border-radius: 24px;
@@ -570,10 +571,15 @@ canvas {
     background: rgba(22, 27, 34, 0.50);
     /* min-height: 50vh; */
 }
+
+.projects_games__project_block.inverse {
+    flex-direction: row-reverse;
+}
 .project_block__description {
     position: relative;
     align-items: flex-start;
     flex: 3;
+    gap: 15px;
     align-self: stretch;
     display: flex;
     flex-direction: column;
@@ -586,7 +592,8 @@ canvas {
 }
 .project_block__name {
     /* font-size: 32px; */
-    font-size: max(2vw, 24px);
+    font-family: "Lexend Deca";
+    font-size: max(2.2vw, 24px);
     font-style: normal;
     font-weight: 700;
     line-height: 130%;
@@ -620,7 +627,13 @@ canvas {
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
+    transition: all 0.5s ease-in-out;
 }
+.project_block__link:hover {
+    background-color: color-mix(in srgb, var(--link-color) 50%, transparent);
+    box-shadow: 0px 0px 15px 0px var(--link-color);
+}
+
 .project_block__img {
     flex: 6;
     flex-basis: 0;
@@ -636,7 +649,9 @@ canvas {
     width: 60%;
     height: 60%;
     border-radius: 50%;
-    background: rgba(200, 155, 20, 0.30);
-    filter: blur(150px);
+    /* background: #c89b14; */
+    background: var(--link-color);
+    opacity: 0.4;
+    filter: blur(120px);
     z-index: 0;
 }
