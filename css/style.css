@@ -600,7 +600,7 @@ canvas {
 }
 .project_block__type {
     /* font-size: 14px; */
-    font-size: max(1vw, 11px);
+    font-size: max(0.9vw, 11px);
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
@@ -611,7 +611,7 @@ canvas {
     align-self: stretch;
     color: #B3B3B3;
     /* font-size: 18px; */
-    font-size: max(1.2vw, 14px);
+    font-size: max(1.1vw, 14px);
     font-style: normal;
     font-weight: 200;
     line-height: 150%;
