@@ -559,6 +559,9 @@ canvas {
 .page__games_projects__container {
     padding-top: 10vh;
     padding-bottom: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .projects_games__project_block {
     margin-bottom: 1rem;
@@ -655,3 +658,64 @@ canvas {
     filter: blur(120px);
     z-index: 0;
 }
+
+/* ======================================= */
+.projects_games__github_block{
+    margin: 1rem 0;
+    width: 40%;
+    align-self: center;
+    position: relative;
+}
+.github_block__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.github_block__img {
+    width: 40%;
+    height: auto;
+}
+.github_block__text {
+    text-align: center;
+    /*font-size: 32px;*/
+    font-size: max(2.2vw, 18px);
+    font-style: normal;
+    font-weight: 650;
+    line-height: 111%;
+}
+.project_block__link.github_block {
+    --link-color: #6e5494;
+}
+.github_block__gradient {
+    top: 25%;
+    left: 24%;
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    border-radius: 100%;
+    background: rgba(110, 10, 161, 0.60);
+    filter: blur(120px);
+    z-index: -10;
+}
+
+/* .footer__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.menu__list.footer{
+    padding: 0;
+    margin: 0;
+}
+.footer__text{
+    color: var(--shade-2, #B3B3B3);
+    font-family: "Lexend Deca";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 171.429%
+} */

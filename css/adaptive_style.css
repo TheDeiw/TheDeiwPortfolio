@@ -245,4 +245,11 @@
   .project_block__gradient_color{
 		filter: blur(90px);
   }
+
+  .projects_games__github_block{
+		width: 85%;
+  }
+  .github_block__gradient{
+		filter: blur(70px);
+  }
 }

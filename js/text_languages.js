@@ -30,6 +30,7 @@ const translations = {
         division_plus_description: `DivisionPlus is a WPF-based application designed to manage and visualize data about soldiers in a battalion.
 								It supports features like filtering, sorting, editing, and analyzing soldier details, making it ideal for organizing and accessing personnel data.`,
         visit_repository: "Visit repository",
+        github_block: "More projects you can find on my GitHub",
     },
     ua: {
         about_me: "Про мене",
@@ -65,5 +66,6 @@ const translations = {
                                     Підтримуються такі функції, як фільтрація, сортування, редагування та аналіз даних про солдатів, 
                                     що робить програму ідеальною для впорядкування та доступу до даних персоналу.</span>`,
         visit_repository: "Відвідати репозиторій",
+        github_block: "Більше проєктів ви зможете знайти на моєму GitHub",
     },
 };
