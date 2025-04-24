@@ -31,6 +31,10 @@ const translations = {
 								It supports features like filtering, sorting, editing, and analyzing soldier details, making it ideal for organizing and accessing personnel data.`,
         visit_repository: "Visit repository",
         github_block: "More projects you can find on my GitHub",
+        collection_of_labworks: "Collection of lab works",
+        basics_of_cg_description: `Created as part of the "Computer Graphics" course. 
+								The project includes five components: drawing basic shapes, 
+                                working with curves, generating fractals, implementing animations, and applying color models.`,
     },
     ua: {
         about_me: "Про мене",
@@ -67,5 +71,8 @@ const translations = {
                                     що робить програму ідеальною для впорядкування та доступу до даних персоналу.</span>`,
         visit_repository: "Відвідати репозиторій",
         github_block: "Більше проєктів ви зможете знайти на моєму GitHub",
+        collection_of_labworks: "Збірка лабораторних робіт",
+        basics_of_cg_description: `<span style='font-weight:90'>Створено в рамках курсу «Комп'ютерна графіка». Проєкт містить п’ять компонентів: 
+        малювання базових фігур, робота з кривими, генерація фракталів, реалізація анімацій та застосування колірних моделей.</span>`,
     },
 };
