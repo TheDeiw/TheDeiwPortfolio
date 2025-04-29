@@ -212,7 +212,7 @@
 
 
 	.about_me__links_table {
-		grid-template-columns: repeat(6, 1fr); /* 2 колонки */
+		grid-template-columns: repeat(5, 1fr); /* 2 колонки */
 		gap: 10px;
 		width: 90%;
   }
