@@ -15,6 +15,16 @@
 	<!-- <meta property="og:image" content="https://site.com/image.jpg"> -->
 	<meta name="theme-color" content="#121216">
 
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8BVRDWPGS"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-F8BVRDWPGS');
+	</script>
+
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon/favicon.ico">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,8 +41,8 @@
 	<div class="wrapper">
 		<header class="header">
 			<div class="header__container">
-				<a href="#main-page" class="header__logo"> <img class="logo__image" src="assets/img/header/Logo.svg"> </a>
-				<nav class="header__menu menu">
+				<a href="#main-page" class="header__logo"> <img class="logo__image" src="assets/img/header/Logo.svg" alt="TheDeiw Logo"> </a>
+				<nav class="header__menu menu" aria-label="Main navigation">
 					<ul class="menu__list">
 						<li class="menu__item">
 							<a href="#about" class="menu__link" data-key="about_me">About me</a>
@@ -44,14 +54,14 @@
 							<a href="#projects" class="menu__link" data-key="projects">Projects</a>
 						</li>
 						<li class="menu__item">
-							<div class="header__menu_games">
+							<div class="header__menu_games" role="menu">
 								<div class="menu_games__button">
 									<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
 									<img src="assets/img/header/Drop Down.svg" alt="" class="menu_games__drop-down">
 								</div>
 								<ul class="menu_games__list" id="dropdownMenu">
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/Blocky_langs/Blocky_ua.html" target="_blank" class="menu_games__link">Blocky</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/Fall_Balls_langs/Fall_Balls_ua.html" target="_blank" class="menu_games__link">Fall Balls</a></li>
+									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/Blocky_langs/Blocky_ua.html" target="_blank" role="menuitem" class="menu_games__link">Blocky</a></li>
+									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/Fall_Balls_langs/Fall_Balls_ua.html" target="_blank" role="menuitem" class="menu_games__link">Fall Balls</a></li>
 								</ul>
 							</div>
 						</li>
@@ -91,7 +101,7 @@
 					<div class="section_name"><h2 class="section_name__heading" data-key="about_me">About me</h2></div>
 					<div class="about_me__card">
 						<div class="card__avatar_name">
-							<img src="assets/img/about me/Avatar6.png" class="avatar_name__avatar">
+							<img src="assets/img/about me/Avatar6.png" class="avatar_name__avatar" alt="Avatar image">
 							<div class="avatar_name__name">
 								<div class="name__my_name" data-key="my_name">Chekhovskyi Dmytro</div>
 								<div class="name__small_description" data-key="small_description">Junior Frontend developer, Unity developer, Photoshop editor <br> Lviv, Ukraine</div>
@@ -107,63 +117,63 @@
 
 					<div class="about_me__links_table">
 						<a href="https://www.instagram.com/the_deiw_/" class="link_block" target="_blank" data-color="#e1306c">
-							<img src="assets/img/about me/logo links/Instagram.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Instagram.svg" alt="Instagram logo" class="link_block__image">
 							<div class="link_block__text">Instagram</div>
 						</a>
 						<a href="https://www.linkedin.com/in/dmytro-chekhovskyi-81baba291/" class="link_block" target="_blank" data-color="#0a66c2">
-							<img src="assets/img/about me/logo links/LinkedIn.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/LinkedIn.svg" alt="LinkedIn logo" class="link_block__image">
 							<div class="link_block__text">LinkedIn</div>
 						</a>
 						<a href="https://www.reddit.com/user/TheDeiw/" class="link_block" target="_blank" data-color="#ff4500">
-							<img src="assets/img/about me/logo links/Reddit.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Reddit.svg" alt="Reddit logo" class="link_block__image">
 							<div class="link_block__text">Reddit</div>
 						</a>
 						<a href="https://www.threads.net/@the_deiw_" class="link_block" target="_blank" data-color="#000000">
-							<img src="assets/img/about me/logo links/Threads.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Threads.svg" alt="Threads logo" class="link_block__image">
 							<div class="link_block__text">Threads</div>
 						</a>
 						<a href="https://github.com/TheDeiw" class="link_block" target="_blank" data-color="#6e5494">
-							<img src="assets/img/about me/logo links/Github.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Github.svg" alt="GitHub logo" class="link_block__image">
 							<div class="link_block__text">GitHub</div>
 						</a>
 						<a href="https://www.figma.com/@thedeiw" class="link_block" target="_blank" data-color="#874fff">
-							<img src="assets/img/about me/logo links/Figma.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Figma.svg" alt="Figma logo" class="link_block__image">
 							<div class="link_block__text">Figma</div>
 						</a>
 						<a href="https://www.youtube.com/@TheDeiw_0110" class="link_block" target="_blank" data-color="#ff0000">
-							<img src="assets/img/about me/logo links/YouTube.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/YouTube.svg" alt="YouTube logo" class="link_block__image">
 							<div class="link_block__text" >YouTube</div>
 						</a>
 						<a href="https://dou.ua/users/dmytro-chekhovskyi/" class="link_block" target="_blank" data-color="#002466">
-							<img src="assets/img/about me/logo links/DOU.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/DOU.svg" alt="DOU logo" class="link_block__image">
 							<div class="link_block__text">DOU.ua</div>
 						</a>
 						<a href="https://thedeiw.itch.io/" class="link_block" target="_blank" data-color="#fa5c5c">
-							<img src="assets/img/about me/logo links/ItchIo.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/ItchIo.svg" alt="Itch.io logo" class="link_block__image">
 							<div class="link_block__text">Itch.io</div>
 						</a>
 						<a href="https://bsky.app/profile/thedeiw.bsky.social" class="link_block" target="_blank" data-color="#0084ff">
-							<img src="assets/img/about me/logo links/Bluesky.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Bluesky.svg" alt="Bluesky logo" class="link_block__image">
 							<div class="link_block__text">Bluesky</div>
 						</a>
 						<a href="https://www.facebook.com/chekhovskyi.dm/" class="link_block" target="_blank" data-color="#1877f2">
-							<img src="assets/img/about me/logo links/Facebook.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Facebook.svg" alt="Facebook logo" class="link_block__image">
 							<div class="link_block__text">Facebook</div>
 						</a>
 						<a href="https://steamcommunity.com/profiles/76561199062207702/" class="link_block" target="_blank" data-color="#00adee">
-							<img src="assets/img/about me/logo links/Steam.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Steam.svg" alt="Steam logo" class="link_block__image">
 							<div class="link_block__text">Steam</div>
 						</a>
 						<a href="https://www.pinterest.com/Thedeiw/_profile/" class="link_block" target="_blank" data-color="#e60023">
-							<img src="assets/img/about me/logo links/Pinterest.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/Pinterest.svg" alt="Pinterest logo" class="link_block__image">
 							<div class="link_block__text">Pinterest</div>
 						</a>
 						<a href="https://x.com/TheDeiw150" class="link_block" target="_blank" data-color="#1da1f2">
-							<img src="assets/img/about me/logo links/X.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/X.svg" alt="X logo" class="link_block__image">
 							<div class="link_block__text">X | Twitter</div>
 						</a>
 						<a href="https://launcher.store.epicgames.com/u/8aa14e32c3f14a4a807b689225cd8ecf" class="link_block" target="_blank" data-color="#2F2D2E">
-							<img src="assets/img/about me/logo links/EpicGames.svg" alt="" class="link_block__image">
+							<img src="assets/img/about me/logo links/EpicGames.svg" alt="Epic Games logo" class="link_block__image">
 							<div class="link_block__text">Epic Games</div>
 						</a>
 					</div>
@@ -183,7 +193,7 @@
 						<a href="https://thedeiw.github.io/TheDeiwGames/Blocky_langs/Blocky_ua.html" target="_blank" class="project_block__link" data-key="download_game">Download Game</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/Blocky.png" class="project_block__img">
+					<img src="assets/img/projects_games/Blocky.png" class="project_block__img" alt="Blocky game media image">
 				</div>
 
 				<div class="projects_games__project_block inverse" data-color="#777977">
@@ -196,7 +206,7 @@
 						<a href="https://thedeiw.github.io/TheDeiwGames/Fall_Balls_langs/Fall_Balls_ua.html" target="_blank" class="project_block__link" data-key="download_game">Download Game</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/Fall-Balls.png" class="project_block__img">
+					<img src="assets/img/projects_games/Fall-Balls.png" class="project_block__img" alt="Fall Balls game media image">
 				</div>
 			</section>
 
@@ -212,7 +222,7 @@
 						<a href="https://thedeiw.github.io/TheDeiwGames/index.html" target="_blank" class="project_block__link" data-key="visit_website">Visit Website</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/ThedeiwsGames.jpg" class="project_block__img">
+					<img src="assets/img/projects_games/ThedeiwsGames.jpg" class="project_block__img" alt="TheDeiw's Games website media image">
 				</div>
 
 				<div class="projects_games__project_block inverse" data-color="#97C08F">
@@ -226,7 +236,7 @@
 						<a href="https://github.com/TheDeiw/DivisionPlus" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/DivisionPlus.png" class="project_block__img">
+					<img src="assets/img/projects_games/DivisionPlus.png" class="project_block__img" alt="Division Plus project media image">
 				</div>
 
 				<div class="projects_games__project_block" data-color="#540c0c">
@@ -240,12 +250,12 @@
 						<a href="https://github.com/TheDeiw/Basics-of-Computer-Graphics" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/BasicsOfCompGraphNew.png" class="project_block__img">
+					<img src="assets/img/projects_games/BasicsOfCompGraphNew.png" class="project_block__img" alt="Basics of Computer Graphics project media image">
 				</div>
 
 				<div class="projects_games__github_block">
 					<div class="github_block__content">
-						<img src="assets/img/projects_games/github_logo.svg" class="github_block__img">
+						<img src="assets/img/projects_games/github_logo.svg" class="github_block__img" alt="GitHub logo">
 						<div class="github_block__text" data-key="github_block">More projects you can find on my GitHub</div>
 						<a href="https://github.com/TheDeiw" target="_blank" class="project_block__link github_block" data-key="visit_website">Visit website</a>
 					</div>
@@ -255,21 +265,10 @@
 		</main>
 
 		<footer class="footer">
-			<!-- <div class="footer__container">
-				<a href="#main-page" class="header__logo"> <img class="logo__image" src="assets/img/header/Logo.svg"> </a>
-				<ul class="menu__list footer">
-					<li class="menu__item">
-						<a href="#about" class="menu__link" data-key="about_me">About me</a>
-					</li>
-					<li class="menu__item">
-						<a href="#games" class="menu__link" data-key="games">Games</a>
-					</li>
-					<li class="menu__item">
-						<a href="#projects" class="menu__link" data-key="projects">Projects</a>
-					</li>
-				</ul>
+			<div class="footer__container">
+				<a href="#main-page" class="header__logo"> <img class="logo__image" src="assets/img/header/Logo.svg" alt="TheDeiw Logo"> </a>
 				<div class="footer__text">Copyright © 2025 TheDeiw’s Games. Made by Chekhovskyi Dmytro</div>
-			</div> -->
+			</div>
 		</footer>
 
 	</div>
@@ -283,5 +282,4 @@
 	<script src="js/translation.js"></script>
 	<script src="js/menu_control.js"></script>
 </body>
-
 </html>

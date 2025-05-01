@@ -30,9 +30,11 @@ function changeLanguage(language) {
     if (language === "en") {
         body.classList.remove("ua-style");
         body.classList.add("en-style");
+        document.documentElement.lang = "en";
     } else if (language === "ua") {
         body.classList.remove("en-style");
         body.classList.add("ua-style");
+        document.documentElement.lang = "ua";
     }
 }
 

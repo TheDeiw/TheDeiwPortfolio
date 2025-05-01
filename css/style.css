@@ -117,13 +117,17 @@ h1 {
 }
 
 .header__logo {
-    width: 52px;
-    height: 73px;
+    /* width: 52px;
+    height: 73px; */
+    width: max(2.8vw, 52px);
+    height: auto;
 }
 
 .logo__image {
-    width: 52px;
-    height: 73px;
+    /* width: 52px;
+    height: 73px; */
+    width: max(2.8vw, 52px);
+    height: auto;
 }
 
 /*.header__menu {    }*/
@@ -137,7 +141,8 @@ h1 {
 .menu__list {
     display: flex;
     align-items: flex-start;
-    gap: 25px;
+    /* gap: 25px; */
+    gap: 2vw;
 }
 
 .menu__item {
@@ -152,10 +157,11 @@ h1 {
     position: relative;
     transition: color 0.3s ease-in-out;
     color: var(--shade1, #FFF);
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: max(1vw, 16px);
     font-style: normal;
     font-weight: 600;
-    line-height: 24px;
+    line-height: 150%;
     /* 150% */
 }
 .menu__link::before{
@@ -191,9 +197,10 @@ h1 {
 .menu__link_downloader {
     all: unset;
     color: #464FEE;
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: max(1vw, 16px);
     font-weight: 600;
-    line-height: 24px;
+    line-height: 150%;
     /* 150% */
 }
 
@@ -235,20 +242,21 @@ h1 {
 
 .menu_games__list.active {
     max-height: auto;
-    /* Або більше, якщо потрібно */
     opacity: 1;
     visibility: visible;
     transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
 }
 
 .menu_games__item {
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: max(1vw, 16px);
     text-align: center;
     padding: 10px;
 }
 
 .menu_games__link {
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: max(1vw, 16px);
     font-family: "Lexend Deca";
     color: var(--shade1, #FFF);
 }
@@ -278,7 +286,8 @@ h1 {
 #en {
     color: var(--shade1, #FFF);
     font-family: "Lexend Deca";
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: max(1.2vw, 18px);
     font-style: normal;
     font-weight: 600;
     line-height: 24px;
@@ -289,7 +298,8 @@ h1 {
 #ua {
     color: var(--shade1, #FFF);
     font-family: "Lexend Deca";
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: max(1.2vw, 18px);
     font-style: normal;
     font-weight: 600;
     line-height: 24px;
@@ -360,7 +370,7 @@ canvas {
     flex-shrink: 0;
     border-radius: 233.5px;
     background: linear-gradient(180deg, rgba(71, 79, 236, 0.27) 0%, rgba(69, 78, 234, 0.27) 100%);
-    filter: blur(150px);
+    filter: blur(9vw);
     z-index: -10;
 }
 
@@ -374,7 +384,7 @@ canvas {
     height: 54.5vh;
     flex-shrink: 0;
     background: rgba(88, 120, 246, 0.25);
-    filter: blur(125px);
+    filter: blur(8vw);
     z-index: -10;
 }
 
@@ -513,9 +523,11 @@ canvas {
 .link_block {
     display: flex;
     align-items: center;
-    width: 175px;
-    padding: 6px 10px 6px 10px;
-    gap: 5px;
+    /* width: 175px; */
+    width: 11vw;  /* (175 / 1920) × 100 ≈ 9.1146vw */
+    /* padding: 6px 10px 6px 10px; */
+    padding: 0.15rem 0.3rem;
+    gap: 0.5rem;
     border-radius: 10px;
     border: 1px solid #30363D;
     background: rgba(22, 27, 34, 0.70);
@@ -529,13 +541,16 @@ canvas {
 
 .link_block__image {
     align-self: left;
+    width: 2vw;  /* (30 / 1920) × 100 = 1.5625vw */
+    height: auto;
 }
 .link_block__text {
     width: 100%;
     color: #FFF;
     text-align: center;
     font-family: Fredoka;
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: 1.3vw;  /* (20 / 1920) × 100 ≈ 1.0417vw */
     font-style: normal;
     font-weight: 500;
     line-height: 130%; /* 26px */
@@ -545,13 +560,13 @@ canvas {
     top: 0;
     left: 30%;
     position: absolute;
-    width: 542.779px;
-    height: 1054.347px;
+    width: 28.27vw;
+    height: 87.86vh;
     transform: rotate(75.076deg);
     flex-shrink: 0;
     border-radius: 233.5px;
     background: linear-gradient(180deg, rgba(71, 79, 236, 0.27) 0%, rgba(69, 78, 234, 0.27) 100%);
-    filter: blur(170px);
+    filter: blur(10vw);
     z-index: -10;
 }
 
@@ -700,22 +715,18 @@ canvas {
     z-index: -10;
 }
 
-/* .footer__container{
+.footer__container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
-.menu__list.footer{
-    padding: 0;
-    margin: 0;
-}
 .footer__text{
     color: var(--shade-2, #B3B3B3);
     font-family: "Lexend Deca";
-    font-size: 14px;
+    font-size: max(1vw, 8px);
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 171.429%
-} */
+    line-height: 171.429%; 
+}

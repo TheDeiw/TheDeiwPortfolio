@@ -218,7 +218,11 @@
   }
 
   /* ================================================ */
+  .page__games_projects__container{
+		padding-top: 1vh;
+  }
   .projects_games__project_block {
+		margin-bottom: 30px;
 		flex-direction: column;
 		text-align: center;
 		justify-content: center;
@@ -247,9 +251,13 @@
   }
 
   .projects_games__github_block{
+		margin-top: 10vh;
 		width: 85%;
   }
   .github_block__gradient{
 		filter: blur(70px);
+  }
+  .github_block__content{
+		gap: 15px;
   }
 }
