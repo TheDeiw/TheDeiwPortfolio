@@ -35,6 +35,9 @@ const translations = {
         basics_of_cg_description: `Created as part of the "Computer Graphics" course. 
 								The project includes five components: drawing basic shapes, 
                                 working with curves, generating fractals, implementing animations, and applying color models.`,
+        notion_list: "Notion list",
+        events_lviv_description: `A list of annual events that take place in Lviv.
+        With this list, I wanted to address the problem of people being unaware of the amazing events that happen regularly in my city.`,
     },
     ua: {
         about_me: "Про мене",
@@ -74,5 +77,8 @@ const translations = {
         collection_of_labworks: "Збірка лабораторних робіт",
         basics_of_cg_description: `<span style='font-weight:90'>Створено в рамках курсу «Комп'ютерна графіка». Проєкт містить п’ять компонентів: 
         малювання базових фігур, робота з кривими, генерація фракталів, реалізація анімацій та застосування колірних моделей.</span>`,
+        notion_list: "Список в Notion",
+        events_lviv_description: `<span style='font-weight:90'>Список щорічнимх подій, що відбуваються у Львові. 
+        Цим списком я захотів вирішити проблему необізнаності людей про дуже круті події, які відбуваються регулярно у моєму місті.</span>`,
     },
 };
