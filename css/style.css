@@ -256,9 +256,14 @@ h1 {
 
 .menu_games__link {
     /* font-size: 16px; */
+    transition: color 0.3s ease-in-out;
     font-size: max(1vw, 16px);
     font-family: "Lexend Deca";
     color: var(--shade1, #FFF);
+}
+
+.menu_games__link:hover {
+    color: var(--link-color);
 }
 
 .menu_games__drop-down {

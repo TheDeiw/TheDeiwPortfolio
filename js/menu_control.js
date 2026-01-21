@@ -28,6 +28,10 @@ document.addEventListener("scroll", () => {
     }
 });
 
+document.querySelectorAll(".menu_games__link").forEach((link) => {
+    link.style.setProperty("--link-color", link.getAttribute("data-color"));
+});
+
 document.querySelectorAll(".link_block").forEach((link) => {
     link.style.setProperty("--link-color", link.getAttribute("data-color"));
 });
