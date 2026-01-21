@@ -121,6 +121,7 @@ h1 {
     height: 73px; */
     width: max(2.8vw, 52px);
     height: auto;
+    padding: 5px;
 }
 
 .logo__image {
