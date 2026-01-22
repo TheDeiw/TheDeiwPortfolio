@@ -90,7 +90,7 @@ TheDeiwPortfolio/
    python -m http.server 8000
 
    # Using Node.js (http-server)
-   npx http-server
+   npx http-server -p 8000
 
    # Using PHP
    php -S localhost:8000
@@ -115,10 +115,10 @@ Visit the live portfolio at: **[https://thedeiw.github.io/TheDeiwPortfolio/](htt
 - Personal avatar and bio
 - Professional description and skills
 - Links to 15+ social platforms:
-  - Instagram, LinkedIn, Reddit, Threads
-  - GitHub, Figma, YouTube, DOU.ua
-  - Itch.io, Bluesky, Facebook, Steam
-  - Pinterest, X/Twitter, Epic Games
+    - Instagram, LinkedIn, Reddit, Threads
+    - GitHub, Figma, YouTube, DOU.ua
+    - Itch.io, Bluesky, Facebook, Steam
+    - Pinterest, X/Twitter, Epic Games
 
 ### Games Section
 - **Blocky**: 3D puzzle game with orthographic camera
