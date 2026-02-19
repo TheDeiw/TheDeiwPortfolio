@@ -16,6 +16,7 @@ const translations = {
 							I love creating and editing in Photoshop and working with design. <br>
 							Welcome to my portfolio, nice to meet you!`,
         unity_game: "Unity game",
+        VR_Simulator: "VR Simulator",
         blocky_description:
             "Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap.",
         view_game: "View game",
@@ -23,6 +24,8 @@ const translations = {
             "A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.",
         cube_runner_description:
             "Fast-paced 3D platformer, where you will test your reaction, speed and ability to cope with unexpected traps.",
+        demining_academy_description:
+            "Virtual Reality simulation for mine awareness and the demining process. Group project, where I was team lead.",
         portfolio_website: "Portfolio website",
         thedeiws_games_description: `I am interested in game development. Additionally, I want people to see my projects, so I am also practicing web development to 
                                     create a website where I can showcase my games. This way, my website will also serve as a portfolio.`,
@@ -59,6 +62,7 @@ const translations = {
                             Обожнюю створювати та редагувати у Photoshop та працювати з дизайном.<br>
                             Вітаю Вас на своєму портфоліо, приємно познайомитись!</span>`,
         unity_game: "Гра на Unity",
+        VR_Simulator: "VR Симулятор",
         blocky_description:
             "<span style='font-weight:90'>Проста 3D головоломка з ортографічною камерою. Зробив по відео-уроку.<br>Ви граєте за червоний рямокутник, який треба визволити з цієї пастки.</span>",
         view_game: "Переглянути гру",
@@ -66,6 +70,8 @@ const translations = {
             "<span style='font-weight:90'>Невелика гра, в якій потрібно ловити кульки різного кольору, щоб вони не потрапили в вічну темряву.</span>",
         cube_runner_description:
             "<span style='font-weight:90'>Швидкісний 3D платформер, де ви випробуєте свою реакцію, швидкість та вміння справлятися з несподіваними пастками.</span>",
+        demining_academy_description:
+            "<span style='font-weight:90'>ВР симулятор для підвищення обізнаності про міни та процес розмінування. Груповий проєкт, де я був тім лідом.</span>",
         portfolio_website: "Портфоліо вебсайт",
         thedeiws_games_description: `<span style='font-weight:90'>Мене цікавить розробка ігор. Крім того, я хочу, щоб люди бачили мої проекти,
                                         тому я також практикую веб-розробку, щоб створити веб-сайт, де я можу продемонструвати свої ігри. 
