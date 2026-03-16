@@ -16,6 +16,7 @@ const translations = {
 							I love creating and editing in Photoshop and working with design. <br>
 							Welcome to my portfolio, nice to meet you!`,
         unity_game: "Unity game",
+        unity_ml_agent: "Unity ML-Agent Project",
         VR_Simulator: "VR Simulator",
         blocky_description:
             "Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap.",
@@ -26,6 +27,7 @@ const translations = {
             "Fast-paced 3D platformer, where you will test your reaction, speed and ability to cope with unexpected traps.",
         demining_academy_description:
             "Virtual Reality simulation for mine awareness and the demining process. Group project, where I was team lead.",
+        space_dodger_description: "Trained agent with Reinforcement Learning using ml-agents toolkit.",
         portfolio_website: "Portfolio website",
         thedeiws_games_description: `I am interested in game development. Additionally, I want people to see my projects, so I am also practicing web development to 
                                     create a website where I can showcase my games. This way, my website will also serve as a portfolio.`,
@@ -62,6 +64,7 @@ const translations = {
                             Обожнюю створювати та редагувати у Photoshop та працювати з дизайном.<br>
                             Вітаю Вас на своєму портфоліо, приємно познайомитись!</span>`,
         unity_game: "Гра на Unity",
+        unity_ml_agent: "Unity ML-Agent Проєкт",
         VR_Simulator: "VR Симулятор",
         blocky_description:
             "<span style='font-weight:90'>Проста 3D головоломка з ортографічною камерою. Зробив по відео-уроку.<br>Ви граєте за червоний рямокутник, який треба визволити з цієї пастки.</span>",
@@ -72,6 +75,8 @@ const translations = {
             "<span style='font-weight:90'>Швидкісний 3D платформер, де ви випробуєте свою реакцію, швидкість та вміння справлятися з несподіваними пастками.</span>",
         demining_academy_description:
             "<span style='font-weight:90'>ВР симулятор для підвищення обізнаності про міни та процес розмінування. Груповий проєкт, де я був тім лідом.</span>",
+        space_dodger_description:
+            "<span style='font-weight:90'>Навчений агент за допомогою Reinforcment Learning з використанням ml-agents Toolkit.</span>",
         portfolio_website: "Портфоліо вебсайт",
         thedeiws_games_description: `<span style='font-weight:90'>Мене цікавить розробка ігор. Крім того, я хочу, щоб люди бачили мої проекти,
                                         тому я також практикую веб-розробку, щоб створити веб-сайт, де я можу продемонструвати свої ігри. 
