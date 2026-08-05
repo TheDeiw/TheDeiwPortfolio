@@ -25,6 +25,8 @@ const translations = {
             "A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.",
         cube_runner_description:
             "Fast-paced 3D platformer, where you will test your reaction, speed and ability to cope with unexpected traps.",
+        tank_destroyer_description:
+            "Tank battle game where you take control of a tank to destroy enemy forces and survive the battlefield.",
         demining_academy_description:
             "Virtual Reality simulation for mine awareness and the demining process. Group project, where I was team lead.",
         space_dodger_description: "Trained agent with Reinforcement Learning using ml-agents toolkit.",
@@ -73,6 +75,8 @@ const translations = {
             "<span style='font-weight:90'>Невелика гра, в якій потрібно ловити кульки різного кольору, щоб вони не потрапили в вічну темряву.</span>",
         cube_runner_description:
             "<span style='font-weight:90'>Швидкісний 3D платформер, де ви випробуєте свою реакцію, швидкість та вміння справлятися з несподіваними пастками.</span>",
+        tank_destroyer_description:
+            "<span style='font-weight:90'>Танкова бойова гра, у якій ви керуєте танком, щоб знищити ворожі сили та вижити на полі бою.</span>",
         demining_academy_description:
             "<span style='font-weight:90'>ВР симулятор для підвищення обізнаності про міни та процес розмінування. Груповий проєкт, де я був тім лідом.</span>",
         space_dodger_description:
