@@ -1,0 +1,58 @@
+// Єдине джерело списку ігор: випадайка «Download games» і секція Games.
+// Порядок у масиві = порядок відображення. Нова гра: запис тут + ключі опису в text_languages.js (en і ua).
+const GAMES = [
+    {
+        id: "demining-academy",
+        name: "Demining Academy",
+        typeKey: "VR_Simulator",
+        descKey: "demining_academy_description",
+        color: "#83CC8F",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html",
+        cover: "assets/img/projects_games/DeminingAcademy.png",
+    },
+    {
+        id: "space-dodger",
+        name: "Space Dodger",
+        typeKey: "unity_ml_agent",
+        descKey: "space_dodger_description",
+        color: "#102185",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html",
+        cover: "assets/img/projects_games/SpaceDodger.png",
+    },
+    {
+        id: "cube-runner",
+        name: "Cube Runner",
+        typeKey: "unity_game",
+        descKey: "cube_runner_description",
+        color: "#32C744",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html",
+        cover: "assets/img/projects_games/CubeRunner.png",
+    },
+    {
+        id: "tank-destroyer",
+        name: "Tank Destroyer",
+        typeKey: "unity_game",
+        descKey: "tank_destroyer_description",
+        color: "#0F4011",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html",
+        cover: "assets/img/projects_games/TankDestroyer.png",
+    },
+    {
+        id: "fall-balls",
+        name: "Fall Balls",
+        typeKey: "unity_game",
+        descKey: "fall_balls_description",
+        color: "#777977",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html",
+        cover: "assets/img/projects_games/Fall-Balls.png",
+    },
+    {
+        id: "blocky",
+        name: "Blocky",
+        typeKey: "unity_game",
+        descKey: "blocky_description",
+        color: "#c89b14",
+        url: "https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html",
+        cover: "assets/img/projects_games/Blocky.png",
+    },
+];
