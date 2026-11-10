@@ -8,6 +8,7 @@ Visit the live portfolio at: **[https://thedeiw.github.io/TheDeiwPortfolio/](htt
 ## ✨ Features
 
 - **3D Interactive Logo**: Three.js-powered 3D logo animation on the main page
+- **3D Games Ring**: Three.js ring of handheld "game screens" around a gamepad; hover or tap shows a card and plays a short clip, with a plain list as fallback
 - **Multilingual Support**: Toggle between English (EN) and Ukrainian (UA) languages
 - **Responsive Design**: Fully adaptive layout for desktop, tablet, and mobile devices
 - **Smooth Navigation**: Anchor-based navigation with smooth scrolling
@@ -35,6 +36,23 @@ Visit the live portfolio at: **[https://thedeiw.github.io/TheDeiwPortfolio/](htt
 - Custom color schemes for different sections
 - Animated hover effects and transitions
 
+
+## 🎮 Games section
+
+The Games section is a 3D ring (`js/games_scene.js`) built from one list in `js/games_data.js`. The same list generates the "Download games" dropdown and a plain fallback list (`js/games_render.js`). The fallback is shown when WebGL is unavailable, or when the page is opened with `?games=list`.
+
+### Adding a game
+1. Make a looping clip (16:9, up to 6 s, no audio) and a poster:
+   ```bash
+   ffmpeg -i source.mp4 -t 6 -vf "fps=30,scale=480:270:force_original_aspect_ratio=increase,crop=480:270" -c:v libx264 -profile:v main -pix_fmt yuv420p -crf 28 -preset slow -movflags +faststart -an assets/video/games/<id>.mp4
+   ffmpeg -i cover.png -vf "scale=512:288:force_original_aspect_ratio=increase,crop=512:288" -c:v libwebp -quality 75 assets/img/projects_games/posters/<id>.webp
+   ```
+2. Add an entry to `GAMES` in `js/games_data.js`.
+3. Add the description key to `js/text_languages.js` (`en` and `ua`).
+4. Add the link to the `<noscript>` list in `index.html`.
+
+The ring shows at most 8 games; mark the ones that must stay on it with `featured: true`.
+Serve the site over HTTP (for example `python -m http.server`): textures and videos do not load from `file://`.
 
 ## 📄 License
 

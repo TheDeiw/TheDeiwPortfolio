@@ -1,3 +1,5 @@
+let currentLang = "en";
+
 document.querySelectorAll(".translator__item").forEach((item) => {
     item.addEventListener("click", () => {
         // Знаходимо поточний вибраний елемент і прибираємо клас
@@ -13,6 +15,7 @@ document.querySelectorAll(".translator__item").forEach((item) => {
 });
 
 function changeLanguage(language) {
+    currentLang = language;
     // Отримати всі елементи, які мають атрибут data-key
     const elements = document.querySelectorAll("[data-key]");
 
@@ -36,6 +39,8 @@ function changeLanguage(language) {
         body.classList.add("ua-style");
         document.documentElement.lang = "ua";
     }
+
+    document.dispatchEvent(new CustomEvent("app:languagechange"));
 }
 
 // Встановити мову за замовчуванням

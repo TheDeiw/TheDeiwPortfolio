@@ -736,3 +736,105 @@ canvas {
     font-weight: 400;
     line-height: 171.429%; 
 }
+
+/* ======================================= games ring */
+.games-wrap {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.games-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(480px, 62vh, 640px);
+}
+.games-stage canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: pan-y;
+}
+.games-itch-caption {
+    position: absolute;
+    left: 86%;
+    top: 90%;
+    transform: translateX(-50%);
+    font-family: "Lexend Deca";
+    font-size: 14px;
+    font-weight: 500;
+    color: #fa5c5c;
+    white-space: nowrap;
+}
+.games-itch-caption:hover {
+    text-decoration: underline;
+}
+.games-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    list-style: none;
+}
+.games-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    width: 224px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #1b1b24;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-family: "Lexend Deca";
+}
+.games-card[hidden] {
+    display: none;
+}
+.games-card__type {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #a9a9b6;
+}
+.games-card__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.games-card__name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 130%;
+}
+.games-card__desc {
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 150%;
+    color: #B3B3B3;
+}
+.games-card .project_block__link {
+    align-self: flex-start;
+    margin-top: 4px;
+    font-size: 14px;
+}
+.games-card__hint {
+    margin: 0;
+    font-size: 14px;
+    color: #a9a9b6;
+}

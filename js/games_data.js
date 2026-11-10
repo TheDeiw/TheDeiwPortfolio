@@ -1,4 +1,5 @@
 // Єдине джерело списку ігор: випадайка «Download games» і секція Games.
+// cover: для запасного списку; poster/video: для 3D-екрана (video необов'язкове, без нього лишається постер).
 // Порядок у масиві = порядок відображення. Нова гра: запис тут + ключі опису в text_languages.js (en і ua).
 const GAMES = [
     {
@@ -9,6 +10,8 @@ const GAMES = [
         color: "#83CC8F",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html",
         cover: "assets/img/projects_games/DeminingAcademy.png",
+        poster: "assets/img/projects_games/posters/demining-academy.webp",
+        video: "assets/video/games/demining-academy.mp4",
     },
     {
         id: "space-dodger",
@@ -18,6 +21,8 @@ const GAMES = [
         color: "#102185",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html",
         cover: "assets/img/projects_games/SpaceDodger.png",
+        poster: "assets/img/projects_games/posters/space-dodger.webp",
+        video: "assets/video/games/space-dodger.mp4",
     },
     {
         id: "cube-runner",
@@ -27,6 +32,8 @@ const GAMES = [
         color: "#32C744",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html",
         cover: "assets/img/projects_games/CubeRunner.png",
+        poster: "assets/img/projects_games/posters/cube-runner.webp",
+        video: "assets/video/games/cube-runner.mp4",
     },
     {
         id: "tank-destroyer",
@@ -36,6 +43,8 @@ const GAMES = [
         color: "#0F4011",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html",
         cover: "assets/img/projects_games/TankDestroyer.png",
+        poster: "assets/img/projects_games/posters/tank-destroyer.webp",
+        video: "assets/video/games/tank-destroyer.mp4",
     },
     {
         id: "fall-balls",
@@ -45,6 +54,8 @@ const GAMES = [
         color: "#777977",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html",
         cover: "assets/img/projects_games/Fall-Balls.png",
+        poster: "assets/img/projects_games/posters/fall-balls.webp",
+        video: "assets/video/games/fall-balls.mp4",
     },
     {
         id: "blocky",
@@ -54,5 +65,7 @@ const GAMES = [
         color: "#c89b14",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html",
         cover: "assets/img/projects_games/Blocky.png",
+        poster: "assets/img/projects_games/posters/blocky.webp",
+        video: "assets/video/games/blocky.mp4",
     },
 ];

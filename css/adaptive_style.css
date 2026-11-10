@@ -260,4 +260,17 @@
   .github_block__content{
 		gap: 15px;
   }
+
+  /* ================================================ games ring */
+  .games-stage {
+		height: min(100vw, 70vh);
+		height: min(100vw, 70svh);
+  }
+  .games-card {
+		position: static;
+		width: auto;
+		margin-top: 8px;
+		min-height: 132px;
+		text-align: left;
+  }
 }

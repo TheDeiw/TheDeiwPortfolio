@@ -36,6 +36,7 @@
 
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/adaptive_style.css">
+	<noscript><style>.games-wrap { display: none; }</style></noscript>
 	<title>TheDeiw Potrfolio</title>
 </head>
 
@@ -184,7 +185,14 @@
 			<section class="page__games_projects__container" id="games">
 				<div class="section_name"><h2 class="section_name__heading" data-key="games">Games</h2></div>
 
-				<div id="games-fallback"></div>
+				<div class="games-wrap" id="games-wrap">
+					<div class="games-stage" id="games-stage">
+						<a class="games-itch-caption" id="games-itch" href="https://thedeiw.itch.io/" target="_blank" rel="noopener" data-key="more_projects">More projects</a>
+						<ul class="games-sr" id="games-links"></ul>
+					</div>
+					<div class="games-card" id="games-card" hidden></div>
+				</div>
+				<div id="games-fallback" hidden></div>
 				<noscript>
 					<ul>
 						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html" target="_blank">Demining Academy</a></li>
@@ -287,5 +295,6 @@
 	<script src="js/games_data.js"></script>
 	<script src="js/games_render.js"></script>
 	<script src="js/menu_control.js"></script>
+	<script src="js/games_scene.js"></script>
 </body>
 </html>
