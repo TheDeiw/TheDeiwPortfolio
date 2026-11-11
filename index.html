@@ -102,7 +102,7 @@
 					<div class="section_name"><h2 class="section_name__heading" data-key="about_me">About me</h2></div>
 					<div class="about_me__card">
 						<div class="card__avatar_name">
-							<img src="assets/img/about me/Avatar6.png" class="avatar_name__avatar" alt="Avatar image">
+							<img src="assets/img/about me/Avatar6.webp" class="avatar_name__avatar" alt="Avatar image">
 							<div class="avatar_name__name">
 								<div class="name__my_name" data-key="my_name">Chekhovskyi Dmytro</div>
 								<div class="name__small_description" data-key="small_description">Unity developer<br> Lviv, Ukraine</div>
@@ -187,8 +187,10 @@
 
 				<div class="games-wrap" id="games-wrap">
 					<div class="games-stage" id="games-stage">
-						<a class="games-itch-caption" id="games-itch" href="https://thedeiw.itch.io/" target="_blank" rel="noopener" data-key="more_projects">More projects</a>
 						<ul class="games-sr" id="games-links"></ul>
+						<button type="button" class="games-back" data-key="games_back">All games</button>
+						<button type="button" class="games-arrow games-arrow--prev" data-dir="-1" aria-label="Previous game">&#8249;</button>
+						<button type="button" class="games-arrow games-arrow--next" data-dir="1" aria-label="Next game">&#8250;</button>
 					</div>
 					<div class="games-card" id="games-card" hidden></div>
 				</div>
@@ -219,7 +221,7 @@
 						<a href="https://thedeiw.github.io/TheDeiwGames/index.html" target="_blank" class="project_block__link" data-key="visit_website">Visit Website</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/ThedeiwsGames.jpg" class="project_block__img" alt="TheDeiw's Games website media image">
+					<img src="assets/img/projects_games/ThedeiwsGames.webp" class="project_block__img" alt="TheDeiw's Games website media image">
 				</div>
 
 				<div class="projects_games__project_block" data-color="#B3B3B3">
@@ -233,7 +235,7 @@
 						<a href="https://lowly-taleggio-bc1.notion.site/Events-Lviv-206cc57b7fe780869bd5f10762406f5f" target="_blank" class="project_block__link" data-key="visit_website">Visit Website<</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/Events-Lviv.png" class="project_block__img" alt="Division Plus project media image">
+					<img src="assets/img/projects_games/Events-Lviv.webp" class="project_block__img" alt="Division Plus project media image">
 				</div>
 
 				<div class="projects_games__project_block inverse" data-color="#97C08F">
@@ -247,7 +249,7 @@
 						<a href="https://github.com/TheDeiw/DivisionPlus" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/DivisionPlus.png" class="project_block__img" alt="Division Plus project media image">
+					<img src="assets/img/projects_games/DivisionPlus.webp" class="project_block__img" alt="Division Plus project media image">
 				</div>
 
 				<div class="projects_games__project_block" data-color="#540c0c">
@@ -261,7 +263,7 @@
 						<a href="https://github.com/TheDeiw/Basics-of-Computer-Graphics" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/BasicsOfCompGraphNew.png" class="project_block__img" alt="Basics of Computer Graphics project media image">
+					<img src="assets/img/projects_games/BasicsOfCompGraphNew.webp" class="project_block__img" alt="Basics of Computer Graphics project media image">
 				</div>
 
 				<div class="projects_games__github_block">
@@ -287,6 +289,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/meshopt_decoder.js"></script>
 
 	<script src="js/adaptability.js"></script>
 	<script src="js/3d_logo.js"></script>

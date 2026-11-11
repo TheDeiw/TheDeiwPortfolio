@@ -21,9 +21,10 @@ const translations = {
         blocky_description:
             "Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap.",
         view_game: "View game",
-        more_projects: "More projects",
         games_hint: "Tap a game to see details",
         games_ring_label: "Interactive ring of my games",
+        games_open: "Click to open",
+        games_back: "All games",
         fall_balls_description:
             "A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.",
         cube_runner_description:
@@ -74,9 +75,10 @@ const translations = {
         blocky_description:
             "<span style='font-weight:90'>Проста 3D головоломка з ортографічною камерою. Зробив по відео-уроку.<br>Ви граєте за червоний рямокутник, який треба визволити з цієї пастки.</span>",
         view_game: "Переглянути гру",
-        more_projects: "Більше проєктів",
         games_hint: "Торкніться гри, щоб побачити деталі",
         games_ring_label: "Інтерактивне кільце моїх ігор",
+        games_open: "Натисніть, щоб відкрити",
+        games_back: "Усі ігри",
         fall_balls_description:
             "<span style='font-weight:90'>Невелика гра, в якій потрібно ловити кульки різного кольору, щоб вони не потрапили в вічну темряву.</span>",
         cube_runner_description:

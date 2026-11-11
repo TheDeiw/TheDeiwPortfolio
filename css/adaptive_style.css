@@ -263,14 +263,26 @@
 
   /* ================================================ games ring */
   .games-stage {
-		height: min(100vw, 70vh);
-		height: min(100vw, 70svh);
+		height: min(85vw, 70vh);
+		height: min(85vw, 70svh);
   }
   .games-card {
 		position: static;
+		transform: none;
 		width: auto;
 		margin-top: 8px;
 		min-height: 132px;
-		text-align: left;
+		padding: 1.25rem;
+		gap: 20px;
+  }
+  .games-back {
+		padding: 10px 20px;
+		font-size: 16px;
+  }
+  .games-arrow {
+		width: 48px;
+		height: 48px;
+		margin-top: -24px;
+		font-size: 30px;
   }
 }

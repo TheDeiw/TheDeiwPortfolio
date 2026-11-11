@@ -1,5 +1,5 @@
 // Єдине джерело списку ігор: випадайка «Download games» і секція Games.
-// cover: для запасного списку; poster/video: для 3D-екрана (video необов'язкове, без нього лишається постер).
+// cover: повна обкладинка (екран 3D, картка, запасний список); video: необов'язковий ролик для картки.
 // Порядок у масиві = порядок відображення. Нова гра: запис тут + ключі опису в text_languages.js (en і ua).
 const GAMES = [
     {
@@ -9,8 +9,7 @@ const GAMES = [
         descKey: "demining_academy_description",
         color: "#83CC8F",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html",
-        cover: "assets/img/projects_games/DeminingAcademy.png",
-        poster: "assets/img/projects_games/posters/demining-academy.webp",
+        cover: "assets/img/projects_games/DeminingAcademy.webp",
         video: "assets/video/games/demining-academy.mp4",
     },
     {
@@ -20,9 +19,7 @@ const GAMES = [
         descKey: "space_dodger_description",
         color: "#102185",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html",
-        cover: "assets/img/projects_games/SpaceDodger.png",
-        poster: "assets/img/projects_games/posters/space-dodger.webp",
-        video: "assets/video/games/space-dodger.mp4",
+        cover: "assets/img/projects_games/SpaceDodger.webp",
     },
     {
         id: "cube-runner",
@@ -31,9 +28,7 @@ const GAMES = [
         descKey: "cube_runner_description",
         color: "#32C744",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html",
-        cover: "assets/img/projects_games/CubeRunner.png",
-        poster: "assets/img/projects_games/posters/cube-runner.webp",
-        video: "assets/video/games/cube-runner.mp4",
+        cover: "assets/img/projects_games/CubeRunner.webp",
     },
     {
         id: "tank-destroyer",
@@ -42,9 +37,7 @@ const GAMES = [
         descKey: "tank_destroyer_description",
         color: "#0F4011",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html",
-        cover: "assets/img/projects_games/TankDestroyer.png",
-        poster: "assets/img/projects_games/posters/tank-destroyer.webp",
-        video: "assets/video/games/tank-destroyer.mp4",
+        cover: "assets/img/projects_games/TankDestroyer.webp",
     },
     {
         id: "fall-balls",
@@ -53,9 +46,7 @@ const GAMES = [
         descKey: "fall_balls_description",
         color: "#777977",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html",
-        cover: "assets/img/projects_games/Fall-Balls.png",
-        poster: "assets/img/projects_games/posters/fall-balls.webp",
-        video: "assets/video/games/fall-balls.mp4",
+        cover: "assets/img/projects_games/Fall-Balls.webp",
     },
     {
         id: "blocky",
@@ -64,8 +55,6 @@ const GAMES = [
         descKey: "blocky_description",
         color: "#c89b14",
         url: "https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html",
-        cover: "assets/img/projects_games/Blocky.png",
-        poster: "assets/img/projects_games/posters/blocky.webp",
-        video: "assets/video/games/blocky.mp4",
+        cover: "assets/img/projects_games/Blocky.webp",
     },
 ];

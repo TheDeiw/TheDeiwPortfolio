@@ -1,4 +1,4 @@
-// 3D-кільце ігор у #games: геймпад у центрі, «кишенькові консолі» ігор на орбіті, картридж itch.io збоку.
+// 3D-кільце ігор у #games: геймпад у центрі, «кишенькові консолі» ігор на орбіті.
 // Three.js r128 (глобальний THREE), як і 3d_logo.js. Кольори без sRGB-конвертацій: так само, як у hero.
 (function () {
     const wrap = document.getElementById("games-wrap");
@@ -6,7 +6,6 @@
     const fallback = document.getElementById("games-fallback");
     const card = document.getElementById("games-card");
     const links = document.getElementById("games-links");
-    const itchLink = document.getElementById("games-itch");
 
     function showFallback() {
         if (wrap) wrap.hidden = true;
@@ -26,7 +25,7 @@
         }
     }
 
-    if (!wrap || !stage || !card || !links || !itchLink || typeof THREE === "undefined" || typeof GAMES === "undefined") {
+    if (!wrap || !stage || !card || !links || typeof THREE === "undefined" || typeof GAMES === "undefined") {
         showFallback();
         return;
     }
@@ -41,6 +40,8 @@
     const AUTO_SPEED = (Math.PI * 2) / 45; // рад/с, повний оберт за ~45 с
     const DRAG = 0.007; // рад на піксель перетягування
     const CARD_W = 224;
+    const OBJ_SCALE = 1.35; // розмір консолі: ширина 1 -> 1.35
+    const PAD_SCALE = 1.5;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarse = matchMedia("(pointer: coarse)").matches;
     const mqStatic = matchMedia("(max-width: 767.98px)");
@@ -69,19 +70,20 @@
         }
         return c;
     }
-    // Розкладка в «екранних» одиницях (ширина екрана-консолі = 1). cart: де стоїть картридж itch.
+    // Розкладка в «екранних» одиницях (ширина екрана-консолі = 1).
     function layout(aspect) {
         const compact = aspect < 1.15;
-        const R = compact ? 1.95 : 2.6;
-        const cart = compact ? { x: 0, y: -2.1 } : { x: R + 1.35, y: -1.6 };
-        const box = compact
-            ? { x0: -R - 0.65, x1: R + 0.65, y0: -3.35, y1: 1.7 }
-            : { x0: -R - 0.6, x1: cart.x + 0.75, y0: -2.9, y1: 1.7 };
-        return { compact, R, cart, box, elev: ((compact ? 24 : 19) * Math.PI) / 180 };
+        const R = compact ? 2.6 : 3.7;
+        const box = compact ? { x0: -R - 0.95, x1: R + 0.95, y0: -2.5, y1: 2.3 } : { x0: -R - 1.0, x1: R + 1.0, y0: -2.6, y1: 2.4 };
+        // detail: куди їде відкрита консоль і наскільки збільшується
+        const detail = compact ? { x: 0, y: 0.4, k: 1.2 } : { x: -2.8, y: 0.2, k: 1.0 };
+        return { compact, R, box, detail, elev: ((compact ? 24 : 19) * Math.PI) / 180 };
     }
 
     // ---------- стан ----------
-    let renderer, canvas, scene, camera, orbit, pad, cart, lay;
+    let renderer, canvas, scene, camera, pad, lay, hintEl;
+    const dp = new THREE.Vector3();
+    let padT = 0;
     let W = 1, H = 1;
     const right = new THREE.Vector3(), up = new THREE.Vector3(), back = new THREE.Vector3(), target = new THREE.Vector3();
     const objs = [];
@@ -91,7 +93,7 @@
     const selGlow = new THREE.Color(0x464fee);
     let ringIdx = [];
     let ringAngle = 0, vel = 0, t = 0, last = 0, raf = 0;
-    let sel = -1, pinned = -1, hoverIdx = -1, focusIdx = -1, cardHover = false, itchHover = false;
+    let sel = -1, pinned = -1, hoverIdx = -1, focusIdx = -1, cardHover = false;
     let clearT = 0, playT = 0, lastType = "mouse";
     let ptr = null, down = null, dragging = false, autoStopped = false;
     let inView = false, lost = false, failed = false, cardStatic = mqStatic.matches, padGlow = 0;
@@ -113,7 +115,7 @@
     }
     function extrude(shape, depth, bevel) {
         const g = new THREE.ExtrudeGeometry(shape, {
-            depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 12,
+            depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 4, curveSegments: 24,
         });
         g.translate(0, 0, -depth / 2);
         return g;
@@ -137,35 +139,35 @@
         x.fillStyle = g;
         x.fillRect(0, 0, w, h);
     });
-    // Поки постер вантажиться (або якщо його немає): колір гри та назва.
-    function placeholderTex(g) {
-        return canvasTex(256, 144, (x, w, h) => {
-            x.fillStyle = g.color;
-            x.fillRect(0, 0, w, h);
-            x.fillStyle = lum(g.color) > 0.5 ? "#121216" : "#fff";
-            x.font = '600 26px "Lexend Deca", sans-serif';
-            x.textAlign = "center";
-            x.textBaseline = "middle";
-            x.fillText(g.name, w / 2, h / 2);
-        });
-    }
-    // Плейсхолдер замість логотипа itch.io: текст на фірмовому червоному.
-    function itchLabelTex() {
-        const draw = (x, w, h) => {
-            x.fillStyle = "#fa5c5c";
-            x.fillRect(0, 0, w, h);
-            x.fillStyle = "#121216";
-            x.font = '700 120px "Lexend Deca", sans-serif';
-            x.textAlign = "center";
-            x.textBaseline = "middle";
-            x.fillText("itch.io", w / 2, h / 2);
+    const shadeHex = (hex, f) => {
+        const n = parseInt(hex.slice(1), 16);
+        return "rgb(" + [16, 8, 0].map((sh) => Math.round(((n >> sh) & 255) * f)).join(",") + ")";
+    };
+    // Екран: обкладинка цілком на сірому фоні (поки вантажиться, показуємо назву).
+    function logoTex(g) {
+        const W = 512, H = 288;
+        const tex = canvasTex(W, H, () => {});
+        const x = tex.image.getContext("2d");
+        const bg = () => {
+            x.fillStyle = "#222329";
+            x.fillRect(0, 0, W, H);
         };
-        const tex = canvasTex(512, 350, draw);
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => {
-                draw(tex.image.getContext("2d"), 512, 350);
+        bg();
+        x.fillStyle = "#fff";
+        x.font = '600 44px "Lexend Deca", sans-serif';
+        x.textAlign = "center";
+        x.textBaseline = "middle";
+        x.fillText(g.name, W / 2, H / 2);
+        tex.needsUpdate = true;
+        if (g.cover) {
+            const img = new Image();
+            img.onload = () => {
+                bg();
+                const k = Math.min(W / img.width, H / img.height); // повна обкладинка без обрізання
+                x.drawImage(img, (W - img.width * k) / 2, (H - img.height * k) / 2, img.width * k, img.height * k);
                 tex.needsUpdate = true;
-            });
+            };
+            img.src = g.cover;
         }
         return tex;
     }
@@ -192,154 +194,159 @@
     };
 
     // ---------- об'єкти ----------
+    const disc = (r, hgt, mat, x, y, z) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, hgt, 28), mat);
+        m.rotation.x = Math.PI / 2;
+        m.position.set(x, y, z + hgt / 2);
+        return m;
+    };
+    const slab = (w, h, d, mat, x, y, z) => {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+        m.position.set(x, y, z + d / 2);
+        return m;
+    };
+
+    const ring = (r, tube, mat, x, y, z) => {
+        const m = new THREE.Mesh(new THREE.TorusGeometry(r, tube, 10, 36), mat);
+        m.position.set(x, y, z);
+        return m;
+    };
+    // прямокутник з різними радіусами кутів: верхній лівий, верхній правий, нижній правий, нижній лівий
+    function rrect(w, h, tl, tr, br, bl) {
+        const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+        s.moveTo(x + bl, y);
+        s.lineTo(x + w - br, y);
+        s.quadraticCurveTo(x + w, y, x + w, y + br);
+        s.lineTo(x + w, y + h - tr);
+        s.quadraticCurveTo(x + w, y + h, x + w - tr, y + h);
+        s.lineTo(x + tl, y + h);
+        s.quadraticCurveTo(x, y + h, x, y + h - tl);
+        s.lineTo(x, y + bl);
+        s.quadraticCurveTo(x, y, x + bl, y);
+        return s;
+    }
+    const decal = (w, h, tex, x, y, z) => {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
+        m.position.set(x, y, z);
+        return m;
+    };
+    const letterTex = (ch, col) =>
+        canvasTex(64, 64, (x) => {
+            x.fillStyle = col;
+            x.font = '700 44px "Lexend Deca", sans-serif';
+            x.textAlign = "center";
+            x.textBaseline = "middle";
+            x.fillText(ch, 32, 36);
+        });
+    const std = (color, roughness = 0.5) => new THREE.MeshStandardMaterial({ color, roughness });
+    function collectTint(root) {
+        const tint = [], seen = new Set();
+        root.traverse((m) => {
+            if (m.isMesh && m.material.color && !seen.has(m.material)) {
+                seen.add(m.material);
+                tint.push([m.material, m.material.color.clone()]);
+            }
+        });
+        return tint;
+    }
+
+    // Кишенькова консоль: двошарове тіло з великим заокругленням знизу праворуч, екран, хрестовина, A/B, динамік, світлодіод.
     function makeHandheld(g, gi) {
         const { group, pivot } = rotGroup();
         const glow = glowOf(g);
-        const D = 0.12, B = 0.015, zf = D / 2 + B;
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x4a4b57, roughness: 0.55, metalness: 0.05 });
-        pivot.add(new THREE.Mesh(extrude(roundedRect(1, 0.8, 0.1), D, B), bodyMat));
+        const D = 0.14, B = 0.02, zf = D / 2 + B;
+        pivot.add(new THREE.Mesh(extrude(rrect(1, 0.92, 0.1, 0.1, 0.3, 0.1), D, B), new THREE.MeshStandardMaterial({ color: 0x383943, roughness: 0.55, metalness: 0.05 })));
+        const plate = new THREE.Mesh(new THREE.ShapeGeometry(rrect(0.94, 0.86, 0.08, 0.08, 0.27, 0.08)), std(0x43444f, 0.6));
+        plate.position.z = zf + 0.001;
+        const dark = std(0x24252d), mid = std(0x2c2d36, 0.6);
+        const bezel = new THREE.Mesh(new THREE.PlaneGeometry(0.88, 0.54), new THREE.MeshBasicMaterial({ color: 0x101015 }));
+        bezel.position.set(0, 0.15, zf + 0.003);
+        pivot.add(plate, bezel);
 
-        const bezel = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 0.52), new THREE.MeshBasicMaterial({ color: 0x101015 }));
-        bezel.position.set(0, 0.1, zf + 0.001);
-        const placeholder = placeholderTex(g);
-        const screenMat = new THREE.MeshBasicMaterial({ map: placeholder });
-        const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.45), screenMat);
-        screen.position.set(0, 0.1, zf + 0.002);
+        // верхній край: плечові кнопки, перемикач живлення
+        pivot.add(slab(0.3, 0.05, 0.1, mid, -0.3, 0.46, -0.05), slab(0.3, 0.05, 0.1, mid, 0.3, 0.46, -0.05), slab(0.14, 0.035, 0.06, dark, 0, 0.465, -0.03));
+        // світлодіод і підпис під екраном
+        const led = new THREE.Mesh(new THREE.CircleGeometry(0.018, 16), new THREE.MeshBasicMaterial({ color: 0xe24b4a }));
+        led.position.set(-0.47, 0.3, zf + 0.003);
+        const strip = decal(0.5, 0.05, canvasTex(256, 26, (x, w, h) => {
+            x.fillStyle = "#8d8e99";
+            x.font = '500 16px "Lexend Deca", sans-serif';
+            x.textAlign = "center";
+            x.textBaseline = "middle";
+            x.fillText("THEDEIW  GAMES", w / 2, h / 2);
+        }), 0, -0.17, zf + 0.003);
+        pivot.add(led, strip);
+
+        // хрестовина на заглибленні, кнопки A (кольору гри) і B із літерами, select/start, динамік
+        const btnA = std(glow.clone(), 0.4), btnB = std(0xa8a9b3, 0.5);
+        const A = disc(0.06, 0.03, btnA, 0.34, -0.2, zf), Bb = disc(0.06, 0.03, btnB, 0.2, -0.29, zf);
+        const pills = [-0.05, 0.06].map((x) => {
+            const m = slab(0.08, 0.025, 0.02, dark, x, -0.38, zf);
+            m.rotation.z = 0.5;
+            return m;
+        });
+        const slits = [0, 1, 2, 3, 4].map((k) => {
+            const m = slab(0.1, 0.014, 0.012, dark, 0.26 + 0.04 * k, -0.42 + 0.025 * k, zf);
+            m.rotation.z = 0.7;
+            return m;
+        });
+        pivot.add(
+            disc(0.11, 0.02, dark, -0.3, -0.26, zf), slab(0.17, 0.05, 0.03, mid, -0.3, -0.26, zf + 0.02), slab(0.05, 0.17, 0.03, mid, -0.3, -0.26, zf + 0.02),
+            A, Bb, ...pills, ...slits,
+            decal(0.06, 0.06, letterTex("A", "#24252d"), 0.34, -0.2, zf + 0.032), decal(0.06, 0.06, letterTex("B", "#24252d"), 0.2, -0.29, zf + 0.032)
+        );
+        const tint = collectTint(pivot);
+
         const rimMat = new THREE.MeshBasicMaterial({ color: glow.clone() });
-        const rim = new THREE.Mesh(new THREE.ShapeGeometry(frameShape(0.94, 0.6, 0.04)), rimMat);
-        rim.position.set(0, 0.1, zf + 0.0005);
+        const rim = new THREE.Mesh(new THREE.ShapeGeometry(frameShape(0.92, 0.58, 0.02)), rimMat);
+        rim.position.set(0, 0.15, zf + 0.002);
+        const still = logoTex(g);
+        const screenMat = new THREE.MeshBasicMaterial({ map: still });
+        const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.45), screenMat);
+        screen.position.set(0, 0.15, zf + 0.004);
+        const glass = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.45), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05 }));
+        glass.position.set(0, 0.15, zf + 0.005);
+        pivot.add(rim, screen, glass, makeHit(1.1, 1.0, 0.4, { gi }));
 
-        const btnA = new THREE.MeshStandardMaterial({ color: 0xe24b4a, roughness: 0.5 });
-        const btnB = new THREE.MeshStandardMaterial({ color: 0xd3d1c7, roughness: 0.5 });
-        const a = new THREE.Mesh(new THREE.CircleGeometry(0.035, 16), btnA);
-        const b = new THREE.Mesh(new THREE.CircleGeometry(0.035, 16), btnB);
-        a.position.set(0.3, -0.27, zf + 0.002);
-        b.position.set(0.2, -0.27, zf + 0.002);
-        pivot.add(bezel, screen, rim, a, b);
-
-        const halo = sprite(glow.clone(), 0.1, 2.4, -0.25);
-        group.add(halo);
-        pivot.add(makeHit(1.1, 0.92, 0.4, { gi }));
-
-        const o = {
-            gi, group, pivot, halo, glow, screenMat, rimMat, placeholder, still: placeholder,
-            tint: [[bodyMat, bodyMat.color.clone()], [btnA, btnA.color.clone()], [btnB, btnB.color.clone()]],
-            s: 0, dim: 1,
-        };
-        if (g.poster) {
-            new THREE.TextureLoader().load(g.poster, (tex) => {
-                tex.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-                const wasStill = screenMat.map === o.still;
-                o.still = tex;
-                if (wasStill) {
-                    screenMat.map = tex;
-                    screenMat.needsUpdate = true;
-                }
-            });
-        }
-        return o;
+        return { gi, group, pivot, glow, screenMat, rimMat, still, tint, s: 0, h: 0, depth: 1, dim: 1 };
     }
 
+    // Геймпад: оптимізована модель Xbox One (3.6k трикутників, текстура 1024, meshopt).
     function makePad() {
         const { group, pivot } = rotGroup();
-        const s = new THREE.Shape();
-        s.moveTo(-0.55, 0.33);
-        s.lineTo(0.55, 0.33);
-        s.quadraticCurveTo(0.8, 0.33, 0.8, 0.1);
-        s.bezierCurveTo(0.82, -0.2, 0.78, -0.45, 0.58, -0.45);
-        s.bezierCurveTo(0.42, -0.45, 0.38, -0.25, 0.3, -0.12);
-        s.lineTo(-0.3, -0.12);
-        s.bezierCurveTo(-0.38, -0.25, -0.42, -0.45, -0.58, -0.45);
-        s.bezierCurveTo(-0.78, -0.45, -0.82, -0.2, -0.8, 0.1);
-        s.quadraticCurveTo(-0.8, 0.33, -0.55, 0.33);
-        const D = 0.26, B = 0.05, zf = D / 2 + B;
-        pivot.add(new THREE.Mesh(extrude(s, D, B), new THREE.MeshStandardMaterial({ color: 0x464fee, roughness: 0.45, metalness: 0.05 })));
-
-        const white = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
-        const accent = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, emissive: 0x000000 });
-        const dark = new THREE.MeshStandardMaterial({ color: 0x2a30b0, roughness: 0.5 });
-        const h = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 0.05), white);
-        const v = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.26, 0.05), white);
-        h.position.set(-0.42, 0.09, zf + 0.02);
-        v.position.copy(h.position);
-        const disc = (r, mat, x, y, hgt) => {
-            const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, hgt, 24), mat);
-            m.rotation.x = Math.PI / 2;
-            m.position.set(x, y, zf + hgt / 2);
-            return m;
-        };
-        pivot.add(h, v, disc(0.06, white, 0.36, 0.17, 0.05), disc(0.06, accent, 0.5, 0.04, 0.05), disc(0.075, dark, -0.2, -0.04, 0.04), disc(0.075, dark, 0.2, -0.04, 0.04));
-        group.add(sprite(0x464fee, 0.28, 3.6, -0.5));
-        return { group, pivot, accent, px: 0, py: 0 };
-    }
-
-    function makeCartridge() {
-        const { group, pivot } = rotGroup();
-        const sh = new THREE.Shape();
-        sh.moveTo(-0.45, 0.5);
-        sh.lineTo(0.45, 0.5);
-        sh.lineTo(0.45, -0.32);
-        sh.lineTo(0.34, -0.32);
-        sh.lineTo(0.34, -0.5);
-        sh.lineTo(-0.34, -0.5);
-        sh.lineTo(-0.34, -0.32);
-        sh.lineTo(-0.45, -0.32);
-        sh.lineTo(-0.45, 0.5);
-        const D = 0.12, B = 0.02, zf = D / 2 + B;
-        pivot.add(new THREE.Mesh(extrude(sh, D, B), new THREE.MeshStandardMaterial({ color: 0x4a4b57, roughness: 0.55, metalness: 0.05 })));
-        const labelMat = new THREE.MeshBasicMaterial({ map: itchLabelTex() });
-        const label = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 0.52), labelMat);
-        label.position.set(0, 0.15, zf + 0.002);
-        const ridge = new THREE.MeshBasicMaterial({ color: 0x33343e });
-        for (const y of [-0.1, -0.17]) {
-            const r = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.025), ridge);
-            r.position.set(0, y, zf + 0.002);
-            pivot.add(r);
-        }
-        pivot.add(label);
-        const halo = sprite(0xfa5c5c, 0.15, 2.4, -0.25);
+        const flip = new THREE.Group(); // модель потрібно перевернути на 180° у площині екрана
+        flip.rotation.z = 0;
+        const inner = new THREE.Group();
+        flip.add(inner);
+        pivot.add(flip);
+        const halo = sprite(0x464fee, 0.1, 3.2, -0.6);
         group.add(halo);
-        pivot.add(makeHit(1.0, 1.1, 0.4, { itch: true }));
-        return { group, pivot, labelMat, halo, s: 0, base: new THREE.Vector3() };
-    }
-
-    // ---------- відео ----------
-    function startVideo(gi) {
-        const o = byGame[gi];
-        if (!o || !GAMES[gi].video || saveData) return;
-        let v = vids[gi];
-        if (!v) {
-            const el = document.createElement("video");
-            el.muted = true;
-            el.loop = true;
-            el.playsInline = true;
-            el.preload = "auto";
-            el.setAttribute("muted", "");
-            el.setAttribute("playsinline", "");
-            el.src = GAMES[gi].video;
-            const tex = new THREE.VideoTexture(el);
-            tex.minFilter = THREE.LinearFilter;
-            tex.magFilter = THREE.LinearFilter;
-            tex.generateMipmaps = false;
-            v = vids[gi] = { el, tex };
-            el.addEventListener("playing", () => {
-                if (sel === gi) {
-                    o.screenMat.map = tex;
-                    o.screenMat.needsUpdate = true;
+        group.scale.setScalar(PAD_SCALE);
+        group.position.y = 0.35;
+        const pad = { group, pivot, accent: new THREE.MeshStandardMaterial(), halo, tint: [], dim: 1, px: 0, py: 0 };
+        const loader = new THREE.GLTFLoader();
+        loader.setMeshoptDecoder(MeshoptDecoder);
+        loader.load("assets/3d/gamepad.glb", (gltf) => {
+            const m = gltf.scene;
+            const box = new THREE.Box3().setFromObject(m);
+            const size = box.getSize(new THREE.Vector3());
+            m.position.sub(box.getCenter(new THREE.Vector3()));
+            inner.add(m);
+            inner.rotation.set(Math.PI / 2, 0, 0); // лицьовий бік до камери, ширина вздовж X
+            inner.scale.setScalar(2.4 / size.x);
+            // сцена без sRGB-виводу: текстура теж лінійна, інакше модель виходить чорною
+            m.traverse((o) => {
+                if (o.isMesh && o.material.map) {
+                    o.material.map.encoding = THREE.LinearEncoding;
+                    o.material.map.needsUpdate = true;
+                }
+                if (o.isMesh) {
+                    o.material.color.setScalar(0.75);
                 }
             });
-        }
-        const p = v.el.play();
-        if (p && p.catch) p.catch(() => {}); // автоплей відхилено: лишається постер
-    }
-    function stopVideo(gi) {
-        const v = vids[gi], o = byGame[gi];
-        if (!v) return;
-        v.el.pause();
-        if (o) {
-            o.screenMat.map = o.still;
-            o.screenMat.needsUpdate = true;
-        }
+            pad.tint = collectTint(inner);
+        });
+        return pad;
     }
 
     // ---------- вибір гри, картка ----------
@@ -348,6 +355,7 @@
         return { x: (p.x * 0.5 + 0.5) * W, y: (-p.y * 0.5 + 0.5) * H };
     }
     function renderCard(i) {
+        wrap.classList.toggle("is-open", i >= 0);
         if (i < 0) {
             card.innerHTML = cardStatic ? `<p class="games-card__hint">${tr("games_hint")}</p>` : "";
             card.hidden = !cardStatic;
@@ -355,47 +363,32 @@
         }
         const g = GAMES[i];
         card.hidden = false;
+        const media = g.video && !saveData
+            ? `<video class="games-card__media" src="${g.video}" poster="${g.cover}" autoplay muted loop playsinline></video>`
+            : `<img class="games-card__media" src="${g.cover}" alt="">`;
         card.innerHTML =
-            `<div class="games-card__type"><span class="games-card__dot" style="background:${g.color}"></span>${tr(g.typeKey)}</div>` +
-            `<div class="games-card__name">${g.name}</div>` +
-            `<div class="games-card__desc">${tr(g.descKey)}</div>` +
+            `<div class="project_block__gradient_color" style="--link-color:${g.color}"></div>` +
+            media +
+            `<div class="project_block__description_text_box">` +
+            `<div class="project_block__name">${g.name}</div>` +
+            `<div class="project_block__type">${tr(g.typeKey)}</div>` +
+            `<div class="project_block__description_text">${tr(g.descKey)}</div></div>` +
             `<a class="project_block__link" style="--link-color:${g.color}" href="${g.url}" target="_blank" rel="noopener">${tr("view_game")}</a>`;
-    }
-    function placeCard() {
-        if (cardStatic || sel < 0 || card.hidden || !byGame[sel]) return;
-        const o = byGame[sel];
-        const p = toPx(o.group.position);
-        const hw = toPx(o.group.position.clone().addScaledVector(right, 0.6)).x - p.x;
-        let x = p.x + hw + 14;
-        if (x + CARD_W > W - 8) x = p.x - hw - 14 - CARD_W;
-        const y = Math.max(8, Math.min(H - card.offsetHeight - 8, p.y - 34));
-        card.style.left = Math.max(8, x) + "px";
-        card.style.top = y + "px";
     }
     function apply(i) {
         if (i === sel) return;
-        clearTimeout(playT);
-        if (sel >= 0) stopVideo(sel);
         sel = i;
-        if (i >= 0) {
-            const o = byGame[i];
-            if (o) selGlow.copy(o.glow);
-            if (lastType === "mouse") playT = setTimeout(() => sel === i && startVideo(i), 120);
-            else startVideo(i); // на дотик play() має йти синхронно з жестом (iOS)
-        }
+        if (byGame[i]) selGlow.copy(byGame[i].glow);
         renderCard(i);
-        placeCard();
     }
-    // Пріоритет: закріплена > під курсором > утримана карткою > у фокусі клавіатури. Інакше знімаємо вибір із затримкою.
+    function step(d) {
+        const i = ringIdx.indexOf(sel);
+        if (i < 0) return;
+        pinned = ringIdx[(i + d + ringIdx.length) % ringIdx.length];
+        resolve();
+    }
     function resolve() {
-        clearTimeout(clearT);
-        if (pinned >= 0) return apply(pinned);
-        if (hoverIdx >= 0) return apply(hoverIdx);
-        if (cardHover) return;
-        if (focusIdx >= 0) return apply(focusIdx);
-        clearT = setTimeout(() => {
-            if (pinned < 0 && hoverIdx < 0 && !cardHover && focusIdx < 0) apply(-1);
-        }, 200);
+        apply(pinned >= 0 ? pinned : focusIdx);
     }
     function track(id) {
         if (typeof gtag === "function") gtag("event", "select_content", { content_type: "game", item_id: id });
@@ -407,7 +400,8 @@
         const r = canvas.getBoundingClientRect();
         ndc.set(((p.clientX - r.left) / r.width) * 2 - 1, -((p.clientY - r.top) / r.height) * 2 + 1);
         ray.setFromCamera(ndc, camera);
-        const h = ray.intersectObjects(hitMeshes, false)[0];
+        // консолі позаду геймпада не інтерактивні
+        const h = ray.intersectObjects(hitMeshes, false).find((x) => byGame[x.object.userData.gi].depth > 0.45);
         return h ? h.object.userData : null;
     }
     function setPtr(e) {
@@ -417,12 +411,10 @@
     function updateHover() {
         if (!ptr || ptr.type === "touch" || dragging) return;
         const h = pickAt(ptr);
-        itchHover = !!(h && h.itch);
         canvas.style.cursor = h ? "pointer" : "";
-        const gi = h && !h.itch ? h.gi : -1;
+        const gi = h ? h.gi : -1;
         if (gi !== hoverIdx) {
             hoverIdx = gi;
-            resolve();
         }
     }
     function bindPointer() {
@@ -438,7 +430,7 @@
             cardHover = false;
             setPtr(e);
             if (!down) return;
-            if (!dragging && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) {
+            if (!dragging && sel < 0 && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) {
                 dragging = true;
                 pinned = hoverIdx = -1;
                 resolve();
@@ -460,12 +452,7 @@
             try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
             if (wasDrag || e.type === "pointercancel") return;
             const h = pickAt(e);
-            if (h && h.itch) {
-                track("itch.io");
-                window.open(itchLink.href, "_blank", "noopener");
-                return;
-            }
-            pinned = h ? (pinned === h.gi ? -1 : h.gi) : -1;
+            pinned = h ? h.gi : -1;
             if (e.pointerType !== "mouse") hoverIdx = -1;
             resolve();
         };
@@ -474,15 +461,19 @@
         canvas.addEventListener("pointerleave", (e) => {
             if (e.pointerType === "touch") return;
             ptr = null;
-            itchHover = false;
-            canvas.style.cursor = "";
+                canvas.style.cursor = "";
             hoverIdx = -1;
             resolve();
         });
         card.addEventListener("pointerenter", () => { cardHover = true; resolve(); });
         card.addEventListener("pointerleave", () => { cardHover = false; resolve(); });
         card.addEventListener("click", (e) => { if (e.target.closest("a") && sel >= 0) track(GAMES[sel].id); });
-        itchLink.addEventListener("click", () => track("itch.io"));
+        stage.querySelectorAll(".games-arrow").forEach((b) => b.addEventListener("click", () => step(+b.dataset.dir)));
+        stage.querySelector(".games-back").addEventListener("click", () => {
+            pinned = focusIdx = -1;
+            if (links.contains(document.activeElement)) document.activeElement.blur();
+            resolve();
+        });
 
         links.addEventListener("focusin", (e) => {
             const a = e.target.closest("a");
@@ -493,6 +484,11 @@
         });
         links.addEventListener("focusout", () => { focusIdx = -1; resolve(); });
         document.addEventListener("keydown", (e) => {
+            if (sel >= 0 && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
+                step(e.key === "ArrowRight" ? 1 : -1);
+                e.preventDefault();
+                return;
+            }
             if (e.key !== "Escape") return;
             pinned = hoverIdx = focusIdx = -1;
             cardHover = false;
@@ -505,8 +501,8 @@
         document.addEventListener("app:languagechange", () => {
             renderLinks();
             canvas.setAttribute("aria-label", tr("games_ring_label"));
+            hintEl.textContent = tr("games_open");
             renderCard(sel);
-            placeCard();
         });
     }
     function renderLinks() {
@@ -539,14 +535,8 @@
         camera.aspect = w / h;
         lay = layout(w / h);
         fit();
-        orbit.scale.setScalar(lay.R);
-        cart.base.copy(right).multiplyScalar(lay.cart.x).addScaledVector(up, lay.cart.y);
-        const cap = toPx(cart.base.clone().addScaledVector(up, -0.85));
-        itchLink.style.left = cap.x + "px";
-        itchLink.style.top = cap.y + "px";
         cardStatic = mqStatic.matches;
         renderCard(sel);
-        placeCard();
     }
 
     // ---------- кадр ----------
@@ -555,9 +545,8 @@
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
         const f = 1 - Math.pow(0.001, dt); // згладжування ~ 0.11 за кадр при 60 fps
-        const secs = reduce ? 0 : now / 1000;
 
-        if (sel < 0 && !dragging) {
+        if (sel < 0 && hoverIdx < 0 && !dragging) {
             const auto = autoStopped || reduce ? 0 : AUTO_SPEED;
             vel += (auto - vel) * (1 - Math.pow(0.05, dt)); // інерція після перетягування затухає до авто-швидкості
             ringAngle += vel * dt;
@@ -566,35 +555,48 @@
         if (!coarse) updateHover();
 
         const n = objs.length;
+        dp.copy(right).multiplyScalar(lay.detail.x).addScaledVector(up, lay.detail.y);
+        dp.sub(camera.position).multiplyScalar(0.7).add(camera.position); // ближче до камери за все на сцені
         objs.forEach((o, k) => {
             const a = ringAngle + (k * Math.PI * 2) / n;
             const sn = Math.sin(a);
-            o.group.position.set(lay.R * Math.cos(a), 0, lay.R * sn);
+            o.group.position.set(lay.R * Math.cos(a), 0, lay.R * sn + 0.9 * o.s); // вибрана консоль виїжджає вперед
             const depth = (sn + 1) / 2; // 1 = спереду
+            o.depth = depth;
             o.s += ((sel === o.gi ? 1 : 0) - o.s) * f;
-            o.dim += ((sel >= 0 && sel !== o.gi ? 0.45 : 1) - o.dim) * f;
-            const b = (0.55 + 0.45 * depth) * o.dim;
-            o.pivot.rotation.set(-lay.elev * 0.8, 0.38 * Math.sin(t * 1.1 + k) * motion * (1 - o.s), 0);
-            o.group.scale.setScalar((0.9 + 0.1 * depth) * (1 + 0.18 * o.s));
+            o.h += ((hoverIdx === o.gi && sel < 0 ? 1 : 0) - o.h) * f;
+            o.dim += ((sel >= 0 && sel !== o.gi ? 0.3 : 1) - o.dim) * f;
+            o.group.position.set(lay.R * Math.cos(a), 0, lay.R * sn).lerp(dp, o.s);
+            const b = (0.72 + 0.28 * Math.max(depth, o.s)) * o.dim;
+            o.pivot.rotation.set(-lay.elev * 0.8, 0.38 * Math.sin(t * 1.1 + k) * motion * (1 - o.s) * (1 - 0.6 * o.h), 0);
+            o.group.scale.setScalar((0.9 + 0.1 * depth) * OBJ_SCALE * (1 + 0.12 * o.h + lay.detail.k * o.s) * (1 - 0.3 * o.s)); // 0.7 компенсує наближення до камери
             o.tint.forEach(([m, base]) => m.color.copy(base).multiplyScalar(b));
-            o.screenMat.color.setScalar(b * (0.62 + 0.38 * o.s));
-            o.rimMat.color.copy(o.glow).multiplyScalar(b * (0.5 + 0.5 * o.s));
-            o.halo.material.opacity = (0.1 + 0.3 * o.s) * o.dim * (0.5 + 0.5 * depth);
+            o.screenMat.color.setScalar(b * (0.85 + 0.15 * Math.max(o.s, o.h)));
+            o.rimMat.color.copy(o.glow).multiplyScalar(b * (0.5 + 0.5 * Math.max(o.s, o.h)));
         });
 
-        const tx = ptr && ptr.type !== "touch" && !reduce ? ptr : null;
-        pad.px += ((tx ? tx.nx : 0) - pad.px) * f * 0.5;
-        pad.py += ((tx ? tx.ny : 0) - pad.py) * f * 0.5;
-        pad.pivot.rotation.set(-lay.elev + 0.09 * Math.sin(secs / 1.1) * motion - pad.py * 0.12, 0.42 * Math.sin(secs / 1.5) * motion + pad.px * 0.18, 0);
-        padGlow += ((sel >= 0 ? 1 : 0) - padGlow) * f;
-        pad.accent.emissive.copy(selGlow).multiplyScalar(padGlow);
+        // мінімальна підказка під консоллю, на яку навели
+        const ho = hoverIdx >= 0 && sel < 0 ? byGame[hoverIdx] : null;
+        hintEl.hidden = !ho;
+        if (ho) {
+            const p = toPx(ho.group.position.clone().addScaledVector(up, -1.0));
+            hintEl.style.left = p.x + "px";
+            hintEl.style.top = p.y + "px";
+        }
 
-        cart.s += ((itchHover ? 1 : 0) - cart.s) * f;
-        cart.group.position.copy(cart.base).addScaledVector(up, Math.sin(secs * 3.9) * 0.04 * motion);
-        cart.pivot.rotation.set(-lay.elev * 0.6, 0.49 * Math.sin(secs * 1.1) * motion * (1 - cart.s), 0);
-        cart.group.scale.setScalar(1.15 * (1 + 0.12 * cart.s));
-        cart.labelMat.color.setScalar(0.8 + 0.2 * cart.s);
-        cart.halo.material.opacity = 0.15 + 0.3 * cart.s;
+        // коли гру відкрито, геймпад темнішає й завмирає
+        pad.dim += ((sel >= 0 ? 0.25 : 1) - pad.dim) * f;
+        pad.tint.forEach(([m, base]) => m.color.copy(base).multiplyScalar(pad.dim));
+        pad.halo.material.opacity = 0.1 * pad.dim;
+        if (sel < 0) {
+            if (!reduce) padT += dt;
+            const tx = ptr && ptr.type !== "touch" && !reduce ? ptr : null;
+            pad.px += ((tx ? tx.nx : 0) - pad.px) * f * 0.5;
+            pad.py += ((tx ? tx.ny : 0) - pad.py) * f * 0.5;
+            pad.pivot.rotation.set(-lay.elev - 0.12 + 0.09 * Math.sin(padT / 1.1) - pad.py * 0.12, 0.42 * Math.sin(padT / 1.5) + pad.px * 0.18, 0);
+        }
+        padGlow += ((sel >= 0 ? 1 : 0) - padGlow) * f;
+        pad.accent.emissive.copy(selGlow).multiplyScalar(padGlow * pad.dim);
 
         renderer.render(scene, camera);
     }
@@ -626,6 +628,11 @@
         canvas.setAttribute("role", "img");
         canvas.setAttribute("aria-label", tr("games_ring_label"));
         stage.insertBefore(canvas, stage.firstChild);
+        hintEl = document.createElement("div");
+        hintEl.className = "games-click";
+        hintEl.hidden = true;
+        hintEl.textContent = tr("games_open");
+        stage.appendChild(hintEl);
 
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
@@ -633,12 +640,6 @@
         const sun = new THREE.DirectionalLight(0xffffff, 0.7);
         sun.position.set(-3, 6, 8);
         scene.add(sun);
-
-        const pts = [];
-        for (let i = 0; i <= 128; i++) pts.push(new THREE.Vector3(Math.cos((i / 128) * Math.PI * 2), 0, Math.sin((i / 128) * Math.PI * 2)));
-        orbit = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, transparent: true, opacity: 0.16, dashSize: 0.03, gapSize: 0.04 }));
-        orbit.computeLineDistances();
-        scene.add(orbit);
 
         ringIdx = ringIndices(GAMES);
         ringIdx.forEach((gi) => {
@@ -648,10 +649,9 @@
             scene.add(o.group);
         });
         pad = makePad();
-        cart = makeCartridge();
-        scene.add(pad.group, cart.group);
+        scene.add(pad.group);
         hitMeshes.length = 0;
-        scene.traverse((m) => { if (m.userData && (m.userData.itch || m.userData.gi !== undefined)) hitMeshes.push(m); });
+        scene.traverse((m) => { if (m.userData && m.userData.gi !== undefined) hitMeshes.push(m); });
 
         renderLinks();
         bindPointer();
