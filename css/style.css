@@ -184,96 +184,18 @@ h1 {
     transform: scaleX(1);
 }
 
-.header__menu_games {
-    position: relative;
-}
-
-.menu_games__button {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.menu__link_downloader {
-    all: unset;
+.menu__link_games {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #464FEE;
-    /* font-size: 16px; */
     font-size: max(1vw, 16px);
     font-weight: 600;
     line-height: 150%;
-    /* 150% */
 }
 
-.menu_games__button::before{
-    content: '';
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 3px;
-    background-color: #464FEE;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-in-out;
-}
-
-.menu_games__button:hover {
-    color: #464FEE;
-}
-
-.menu_games__button:hover::before {
-    transform: scaleX(1);
-}
-
-.menu_games__list {
-    width: 100%;
-    left: -5px;
-    justify-content: center;
-    position: absolute;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 1000;
-    background-color: #121216;
-    opacity: 0;
-    visibility: hidden;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out, opacity 0.3s ease-out, visibility 0s linear 0.4s;
-}
-
-.menu_games__list.active {
-    max-height: auto;
-    opacity: 1;
-    visibility: visible;
-    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
-}
-
-.menu_games__item {
-    /* font-size: 16px; */
-    font-size: max(1vw, 16px);
-    text-align: center;
-    padding: 10px;
-}
-
-.menu_games__link {
-    /* font-size: 16px; */
-    transition: color 0.3s ease-in-out;
-    font-size: max(1vw, 16px);
-    font-family: "Lexend Deca";
-    color: var(--shade1, #FFF);
-}
-
-.menu_games__link:hover {
-    color: var(--link-color);
-}
-
-.menu_games__drop-down {
-    rotate: 0;
-    transition: transform ease 0.3s 0s;
-}
-
-.menu_games__drop-down.active {
-    transform: rotate(-180deg);
+.menu__ext {
+    flex: none;
 }
 
 .header__right_side {
@@ -735,4 +657,191 @@ canvas {
     font-style: normal;
     font-weight: 400;
     line-height: 171.429%; 
+}
+
+/* ======================================= games ring */
+.games-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+}
+.games-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(640px, 82vh, 780px);
+}
+.games-stage canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: pan-y;
+}
+.games-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    list-style: none;
+}
+/* Картка повторює блок з розділу Projects: ті самі класи шрифтів, відступи, рамка й радіус. */
+.games-card {
+    position: absolute;
+    right: 104px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: var(--games-card-w, min(56%, 620px));
+    box-sizing: border-box;
+    padding: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 24px;
+    border: 1px solid var(--shade-3, #3B3B3B);
+    background: rgba(22, 27, 34, 0.92);
+}
+.games-card[hidden] {
+    display: none;
+}
+.games-card__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #16161b;
+}
+.games-card .project_block__link {
+    align-self: flex-start;
+}
+.games-card > :not(.project_block__gradient_color) {
+    position: relative;
+    z-index: 1;
+}
+.games-card__hint {
+    margin: 0;
+    font-size: 14px;
+    color: #a9a9b6;
+}
+.games-click {
+    position: absolute;
+    transform: translate(-50%, 0);
+    padding: 3px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: rgba(27, 27, 36, 0.9);
+    color: #fff;
+    font: 500 12px "Lexend Deca";
+    white-space: nowrap;
+    pointer-events: none;
+}
+.games-click[hidden] {
+    display: none;
+}
+/* Керування відкритою грою: поза карткою, по боках сцени. */
+.games-arrow,
+.games-back {
+    position: absolute;
+    z-index: 6;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(22, 27, 34, 0.9);
+    color: #fff;
+    font-family: "Lexend Deca";
+    cursor: pointer;
+}
+.games-arrow:hover,
+.games-back:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+.games-arrow {
+    top: 50%;
+    width: 64px;
+    height: 64px;
+    margin-top: -32px;
+    border-radius: 50%;
+    font-size: 40px;
+    line-height: 1;
+}
+.games-arrow--prev {
+    left: 0;
+}
+.games-arrow--next {
+    right: 0;
+}
+.games-back {
+    left: 0;
+    top: 0;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 18px;
+}
+.games-back::before {
+    content: "\2190\00a0";
+}
+.games-wrap.is-open .games-arrow,
+.games-wrap.is-open .games-back {
+    display: flex;
+}
+@media (min-width: 2200px) {
+    .games-wrap {
+        max-width: 1400px;
+    }
+}
+/* Фонові розмиті еліпси, як у hero. */
+#games {
+    position: relative;
+}
+.games-glow {
+    position: absolute;
+    pointer-events: none;
+    z-index: -10;
+}
+.games-glow--a {
+    top: 0;
+    right: -6%;
+    width: 30.61vw;
+    height: 60vh;
+    transform: rotate(51.133deg);
+    border-radius: 233.5px;
+    background: linear-gradient(180deg, rgba(71, 79, 236, 0.27) 0%, rgba(69, 78, 234, 0.27) 100%);
+    filter: blur(9vw);
+}
+.games-glow--b {
+    bottom: 0;
+    left: -6%;
+    width: 20vw;
+    height: 45vh;
+    background: rgba(88, 120, 246, 0.25);
+    filter: blur(8vw);
+}
+.games-subtitle {
+    margin: -0.6rem 0 0;
+    color: #B3B3B3;
+    font-size: max(1.1vw, 14px);
+    font-weight: 200;
+    line-height: 150%;
+}
+/* Блок Itch.io: той самий, що GitHub, але червоний. */
+.project_block__link.itch_block__link {
+    --link-color: #fa5c5c;
+}
+.github_block__gradient.itch_block__gradient {
+    background: rgba(250, 92, 92, 0.5);
+}
+.itch_block__img {
+    width: 46%;
 }

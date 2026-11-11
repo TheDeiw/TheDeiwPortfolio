@@ -102,20 +102,6 @@
 		line-height: 24px;
 		/* 150% */
 	}
-	.header__menu_games {
-		width: 100%;
-		margin-right: 10px;
-		left: 0;
-	}
-
-	.menu_games__list {
-		margin-top: 10px;
-		position: absolute;
-		width: 100%;
-		left: 0;
-		padding: 0;
-	}
-
 	.translator__list {
 		margin-right: 15px;
 	}
@@ -259,5 +245,44 @@
   }
   .github_block__content{
 		gap: 15px;
+  }
+
+  /* ================================================ games ring */
+  .games-glow--a {
+		top: 0;
+		right: -10%;
+		width: 45vw;
+		height: 30vh;
+		filter: blur(75px);
+  }
+  .games-glow--b {
+		bottom: 0;
+		left: -10%;
+		width: 30vw;
+		height: 25vh;
+		filter: blur(70px);
+  }
+  .games-stage {
+		height: min(85vw, 70vh);
+		height: min(85vw, 70svh);
+  }
+  .games-card {
+		position: static;
+		transform: none;
+		width: auto;
+		margin-top: 8px;
+		min-height: 132px;
+		padding: 1.25rem;
+		gap: 20px;
+  }
+  .games-back {
+		padding: 10px 20px;
+		font-size: 16px;
+  }
+  .games-arrow {
+		width: 48px;
+		height: 48px;
+		margin-top: -24px;
+		font-size: 30px;
   }
 }

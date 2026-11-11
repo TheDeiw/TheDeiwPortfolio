@@ -36,6 +36,7 @@
 
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/adaptive_style.css">
+	<noscript><style>.games-wrap { display: none; }</style></noscript>
 	<title>TheDeiw Potrfolio</title>
 </head>
 
@@ -56,20 +57,7 @@
 							<a href="#projects" class="menu__link" data-key="projects">Projects</a>
 						</li>
 						<li class="menu__item">
-							<div class="header__menu_games" role="menu">
-								<div class="menu_games__button">
-									<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
-									<img src="assets/img/header/Drop Down.svg" alt="Drop down arrow" class="menu_games__drop-down">
-								</div>
-								<ul class="menu_games__list" id="dropdownMenu">
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html" target="_blank" role="menuitem" data-color="#83CC8F" class="menu_games__link">Demining Academy</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html" target="_blank" role="menuitem" data-color="#102185" class="menu_games__link">Space Dodger</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html" target="_blank" role="menuitem" data-color="#32C744" class="menu_games__link">Cube Runner</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html" target="_blank" role="menuitem" data-color="#0F4011" class="menu_games__link">Tank Destroyer</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html" target="_blank" role="menuitem" data-color="#777977" class="menu_games__link">Fall Balls</a></li>
-									<li class="menu_games__item"><a href="https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html" target="_blank" role="menuitem" data-color="#c89b14" class="menu_games__link">Blocky</a></li>
-								</ul>
-							</div>
+							<a href="https://thedeiw.github.io/TheDeiwGames/index.html" target="_blank" rel="noopener" class="menu__link menu__link_games"><span data-key="thedeiws_games">TheDeiw's Games</span><svg class="menu__ext" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 						</li>
 					</ul>
 				</nav>
@@ -107,7 +95,7 @@
 					<div class="section_name"><h2 class="section_name__heading" data-key="about_me">About me</h2></div>
 					<div class="about_me__card">
 						<div class="card__avatar_name">
-							<img src="assets/img/about me/Avatar6.png" class="avatar_name__avatar" alt="Avatar image">
+							<img src="assets/img/about me/Avatar6.webp" class="avatar_name__avatar" alt="Avatar image">
 							<div class="avatar_name__name">
 								<div class="name__my_name" data-key="my_name">Chekhovskyi Dmytro</div>
 								<div class="name__small_description" data-key="small_description">Unity developer<br> Lviv, Ukraine</div>
@@ -189,83 +177,38 @@
 				
 			<section class="page__games_projects__container" id="games">
 				<div class="section_name"><h2 class="section_name__heading" data-key="games">Games</h2></div>
+				<p class="games-subtitle" data-key="games_subtitle">Click a handheld screen to see the game. Drag or swipe to rotate the ring.</p>
 
-				<div class="projects_games__project_block" data-color="#83CC8F">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name">Demining Academy</div>
-							<div class="project_block__type" data-key="VR_Simulator">VR Simulator</div>
-							<div class="project_block__description_text" data-key="demining_academy_description">Virtual Reality simulation for mine awareness and the demining process. Group project, where I was team lead.</div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
+				<div class="games-wrap" id="games-wrap">
+					<div class="games-glow games-glow--a"></div>
+					<div class="games-glow games-glow--b"></div>
+					<div class="games-stage" id="games-stage">
+						<ul class="games-sr" id="games-links"></ul>
+						<button type="button" class="games-back" data-key="games_back">All games</button>
+						<button type="button" class="games-arrow games-arrow--prev" data-dir="-1" aria-label="Previous game">&#8249;</button>
+						<button type="button" class="games-arrow games-arrow--next" data-dir="1" aria-label="Next game">&#8250;</button>
 					</div>
-					<img src="assets/img/projects_games/DeminingAcademy.png" class="project_block__img" alt="Demining Academy game media image">
+					<div class="games-card" id="games-card" hidden></div>
 				</div>
+				<div id="games-fallback" hidden></div>
+				<noscript>
+					<ul>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/DeminingAcademy.html" target="_blank">Demining Academy</a></li>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html" target="_blank">Space Dodger</a></li>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html" target="_blank">Cube Runner</a></li>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html" target="_blank">Tank Destroyer</a></li>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html" target="_blank">Fall Balls</a></li>
+						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html" target="_blank">Blocky</a></li>
+					</ul>
+				</noscript>
 
-				<div class="projects_games__project_block inverse" data-color="#102185">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name">Space Dodger</div>
-							<div class="project_block__type" data-key="unity_ml_agent">Unity ML-Agent Project</div>
-							<div class="project_block__description_text" data-key="space_dodger_description">Trained agent with Reinforcement Learning using ml-agents toolkit. </div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/SpaceDodger.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
+				<div class="projects_games__github_block itch_block">
+					<div class="github_block__content">
+						<img src="assets/img/projects_games/itch_button.webp" class="github_block__img itch_block__img" alt="Itch.io logo">
+						<div class="github_block__text" data-key="itch_block">More games you can find on my Itch.io</div>
+						<a href="https://thedeiw.itch.io/" target="_blank" rel="noopener" class="project_block__link itch_block__link" data-key="visit_website">Visit website</a>
 					</div>
-					<img src="assets/img/projects_games/SpaceDodger.png" class="project_block__img" alt="Space Dodger game media image">
-				</div>
-
-				<div class="projects_games__project_block" data-color="#32C744">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name">Cube Runner</div>
-							<div class="project_block__type" data-key="unity_game">Unity Game</div>
-							<div class="project_block__description_text" data-key="cube_runner_description">Fast-paced 3D platformer, where you will test your reaction, speed and ability to cope with unexpected traps. </div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/CubeRunner.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
-					</div>
-					<img src="assets/img/projects_games/CubeRunner.png" class="project_block__img" alt="Cube Runner game media image">
-				</div>
-
-				<div class="projects_games__project_block inverse" data-color="#0F4011">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name">Tank Destroyer</div>
-							<div class="project_block__type" data-key="unity_game">Unity Game</div>
-							<div class="project_block__description_text" data-key="tank_destroyer_description">Tank battle game where you take control of a tank to destroy enemy forces and survive the battlefield.</div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/TankDestroyer.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
-					</div>
-					<img src="assets/img/projects_games/TankDestroyer.png" class="project_block__img" alt="Tank Destroyer game media image">
-				</div>
-
-				<div class="projects_games__project_block" data-color="#777977">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name" data-key="fall_balls">Fall Balls</div>
-							<div class="project_block__type" data-key="unity_game">Unity Game</div>
-							<div class="project_block__description_text" data-key="fall_balls_description">A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.</div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/FallBalls.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
-					</div>
-					<img src="assets/img/projects_games/Fall-Balls.png" class="project_block__img" alt="Fall Balls game media image">
-				</div>
-
-				<div class="projects_games__project_block inverse" data-color="#c89b14">
-					<div class="project_block__description">
-						<div class="project_block__description_text_box">
-							<div class="project_block__name" data-key="blocky">Blocky</div>
-							<div class="project_block__type" data-key="unity_game">Unity Game</div>
-							<div class="project_block__description_text" data-key="blocky_description">Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap. </div>
-						</div>
-						<a href="https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html" target="_blank" class="project_block__link" data-key="view_game">Download Game</a>
-						<div class="project_block__gradient_color"></div>
-					</div>
-					<img src="assets/img/projects_games/Blocky.png" class="project_block__img" alt="Blocky game media image">
+					<div class="github_block__gradient itch_block__gradient"></div>
 				</div>
 
 			</section>
@@ -283,7 +226,7 @@
 						<a href="https://thedeiw.github.io/TheDeiwGames/index.html" target="_blank" class="project_block__link" data-key="visit_website">Visit Website</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/ThedeiwsGames.jpg" class="project_block__img" alt="TheDeiw's Games website media image">
+					<img src="assets/img/projects_games/ThedeiwsGames.webp" class="project_block__img" alt="TheDeiw's Games website media image">
 				</div>
 
 				<div class="projects_games__project_block" data-color="#B3B3B3">
@@ -297,7 +240,7 @@
 						<a href="https://lowly-taleggio-bc1.notion.site/Events-Lviv-206cc57b7fe780869bd5f10762406f5f" target="_blank" class="project_block__link" data-key="visit_website">Visit Website<</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/Events-Lviv.png" class="project_block__img" alt="Division Plus project media image">
+					<img src="assets/img/projects_games/Events-Lviv.webp" class="project_block__img" alt="Division Plus project media image">
 				</div>
 
 				<div class="projects_games__project_block inverse" data-color="#97C08F">
@@ -311,7 +254,7 @@
 						<a href="https://github.com/TheDeiw/DivisionPlus" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/DivisionPlus.png" class="project_block__img" alt="Division Plus project media image">
+					<img src="assets/img/projects_games/DivisionPlus.webp" class="project_block__img" alt="Division Plus project media image">
 				</div>
 
 				<div class="projects_games__project_block" data-color="#540c0c">
@@ -325,7 +268,7 @@
 						<a href="https://github.com/TheDeiw/Basics-of-Computer-Graphics" target="_blank" class="project_block__link" data-key="visit_repository">Visit Repository</a>
 						<div class="project_block__gradient_color"></div>
 					</div>
-					<img src="assets/img/projects_games/BasicsOfCompGraphNew.png" class="project_block__img" alt="Basics of Computer Graphics project media image">
+					<img src="assets/img/projects_games/BasicsOfCompGraphNew.webp" class="project_block__img" alt="Basics of Computer Graphics project media image">
 				</div>
 
 				<div class="projects_games__github_block">
@@ -351,11 +294,16 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/meshopt_decoder.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 
 	<script src="js/adaptability.js"></script>
 	<script src="js/3d_logo.js"></script>
 	<script src="js/text_languages.js"></script>
 	<script src="js/translation.js"></script>
+	<script src="js/games_data.js"></script>
+	<script src="js/games_render.js"></script>
 	<script src="js/menu_control.js"></script>
+	<script src="js/games_scene.js"></script>
 </body>
 </html>

@@ -58,8 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const maxRotationX = THREE.MathUtils.degToRad(10); // 10 градусів
 
     // Анімація (ефект невагомості + обертання)
+    let heroVisible = true, heroRaf = 0;
     function animate() {
-        requestAnimationFrame(animate);
+        heroRaf = 0;
+        if (!heroVisible || document.hidden) return; // поза екраном hero не рендеримо
+        heroRaf = requestAnimationFrame(animate);
 
         if (model) {
             // Ефект невагомості
@@ -82,6 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer.render(scene, camera);
     }
     animate();
+    new IntersectionObserver((es) => {
+        heroVisible = es[0].isIntersecting;
+        if (heroVisible && !heroRaf) animate();
+    }).observe(container);
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && heroVisible && !heroRaf) animate();
+    });
 
     // Взаємодія з мишею
     container.addEventListener("mousedown", function (event) {

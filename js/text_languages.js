@@ -3,7 +3,6 @@ const translations = {
         about_me: "About me",
         games: "Games",
         projects: "Projects",
-        download_games: "Download games",
         main_heading_begin: "I'm",
         thedeiw: " TheDeiw",
         main_heading_end: "Welcome to my site",
@@ -21,6 +20,12 @@ const translations = {
         blocky_description:
             "Simple 3D puzzle with orthographic camera. Made a video tutorial.<br>You're playing for a red rectangle that needs to be freed from this trap.",
         view_game: "View game",
+        games_hint: "Tap a game to see details",
+        games_ring_label: "Interactive ring of my games",
+        games_open: "Click to open",
+        games_back: "All games",
+        games_subtitle: "Click a handheld screen to see the game. Drag or swipe to spin the games.",
+        itch_block: "More games you can find on my Itch.io",
         fall_balls_description:
             "A small game in which you need to catch multi-colored balls so that they do not go out in eternal darkness.",
         cube_runner_description:
@@ -52,7 +57,6 @@ const translations = {
         about_me: "Про мене",
         games: "Ігри",
         projects: "Проєкти",
-        download_games: "Завантажити ігри",
         main_heading_begin: "Привіт! Я",
         thedeiw: " TheDeiw",
         main_heading_end: "Вітаю на моєму сайті",
@@ -71,6 +75,12 @@ const translations = {
         blocky_description:
             "<span style='font-weight:90'>Проста 3D головоломка з ортографічною камерою. Зробив по відео-уроку.<br>Ви граєте за червоний рямокутник, який треба визволити з цієї пастки.</span>",
         view_game: "Переглянути гру",
+        games_hint: "Торкніться гри, щоб побачити деталі",
+        games_ring_label: "Інтерактивне кільце моїх ігор",
+        games_open: "Натисніть, щоб відкрити",
+        games_back: "Усі ігри",
+        games_subtitle: "Натисніть на екран консолі, щоб побачити гру. Перетягніть або свайпніть, щоб прокрутити ігри.",
+        itch_block: "Більше ігор ви зможете знайти на моєму Itch.io",
         fall_balls_description:
             "<span style='font-weight:90'>Невелика гра, в якій потрібно ловити кульки різного кольору, щоб вони не потрапили в вічну темряву.</span>",
         cube_runner_description:
