@@ -1,16 +1,8 @@
-// Генерує з GAMES випадайку «Download games» і запасний список у #games.
+// Генерує з GAMES запасний список у #games.
 // Має виконуватись до menu_control.js: той на старті ставить --link-color цим елементам.
 // Тексти беремо з translations.en (як і зараз до першого перемикання мови); data-key лишаємо для changeLanguage.
 (function () {
     const t = translations.en;
-
-    const menu = document.getElementById("dropdownMenu");
-    if (menu) {
-        menu.innerHTML = GAMES.map(
-            (g) =>
-                `<li class="menu_games__item"><a href="${g.url}" target="_blank" role="menuitem" data-color="${g.color}" class="menu_games__link">${g.name}</a></li>`
-        ).join("");
-    }
 
     const list = document.getElementById("games-fallback");
     if (list) {

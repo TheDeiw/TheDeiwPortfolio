@@ -57,14 +57,7 @@
 							<a href="#projects" class="menu__link" data-key="projects">Projects</a>
 						</li>
 						<li class="menu__item">
-							<div class="header__menu_games" role="menu">
-								<div class="menu_games__button">
-									<button class="menu__link_downloader" id="dropdownBtn" data-key="download_games">Download games</button>
-									<img src="assets/img/header/Drop Down.svg" alt="Drop down arrow" class="menu_games__drop-down">
-								</div>
-								<ul class="menu_games__list" id="dropdownMenu">
-								</ul>
-							</div>
+							<a href="https://thedeiw.github.io/TheDeiwGames/index.html" target="_blank" rel="noopener" class="menu__link menu__link_games"><span data-key="thedeiws_games">TheDeiw's Games</span><svg class="menu__ext" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 						</li>
 					</ul>
 				</nav>
@@ -184,8 +177,11 @@
 				
 			<section class="page__games_projects__container" id="games">
 				<div class="section_name"><h2 class="section_name__heading" data-key="games">Games</h2></div>
+				<p class="games-subtitle" data-key="games_subtitle">Click a handheld screen to see the game. Drag or swipe to rotate the ring.</p>
 
 				<div class="games-wrap" id="games-wrap">
+					<div class="games-glow games-glow--a"></div>
+					<div class="games-glow games-glow--b"></div>
 					<div class="games-stage" id="games-stage">
 						<ul class="games-sr" id="games-links"></ul>
 						<button type="button" class="games-back" data-key="games_back">All games</button>
@@ -205,6 +201,15 @@
 						<li><a href="https://thedeiw.github.io/TheDeiwGames/pages/Blocky.html" target="_blank">Blocky</a></li>
 					</ul>
 				</noscript>
+
+				<div class="projects_games__github_block itch_block">
+					<div class="github_block__content">
+						<img src="assets/img/projects_games/itch_button.webp" class="github_block__img itch_block__img" alt="Itch.io logo">
+						<div class="github_block__text" data-key="itch_block">More games you can find on my Itch.io</div>
+						<a href="https://thedeiw.itch.io/" target="_blank" rel="noopener" class="project_block__link itch_block__link" data-key="visit_website">Visit website</a>
+					</div>
+					<div class="github_block__gradient itch_block__gradient"></div>
+				</div>
 
 			</section>
 
@@ -290,6 +295,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/meshopt_decoder.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 
 	<script src="js/adaptability.js"></script>
 	<script src="js/3d_logo.js"></script>

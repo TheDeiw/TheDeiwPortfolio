@@ -39,7 +39,7 @@ Visit the live portfolio at: **[https://thedeiw.github.io/TheDeiwPortfolio/](htt
 
 ## 🎮 Games section
 
-The Games section is a 3D ring (`js/games_scene.js`) built from one list in `js/games_data.js`. The same list generates the "Download games" dropdown and a plain fallback list (`js/games_render.js`). The fallback is shown when WebGL is unavailable, or when the page is opened with `?games=list`.
+The Games section is a 3D ring (`js/games_scene.js`) built from one list in `js/games_data.js`. The same list generates a plain fallback list (`js/games_render.js`). The fallback is shown when WebGL is unavailable, or when the page is opened with `?games=list`.
 
 ### Adding a game
 1. Convert the full cover to webp; it is used on the 3D screen, in the card and in the fallback list:

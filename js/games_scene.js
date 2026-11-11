@@ -47,6 +47,11 @@
     const mqStatic = matchMedia("(max-width: 767.98px)");
     const saveData = !!(navigator.connection && navigator.connection.saveData);
     const motion = reduce ? 0 : 1;
+    // слабкі пристрої: мало ядер/пам'яті або Save-Data
+    const lowEnd = saveData || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 2;
+    const SIDE = 104; // відступ під стрілку (64 px) і проміжок (40 px)
+    const TEX_W = lowEnd ? 256 : 512;
+    let dprCap = lowEnd ? 1 : coarse ? 1.5 : 2;
 
     const tr = (k) => (translations[currentLang] && translations[currentLang][k]) || translations.en[k] || "";
     const lum = (hex) => {
@@ -81,7 +86,7 @@
     }
 
     // ---------- стан ----------
-    let renderer, canvas, scene, camera, pad, lay, hintEl;
+    let renderer, canvas, scene, camera, pad, lay, hintEl, keyLight;
     const dp = new THREE.Vector3();
     let padT = 0;
     let W = 1, H = 1;
@@ -96,6 +101,7 @@
     let sel = -1, pinned = -1, hoverIdx = -1, focusIdx = -1, cardHover = false;
     let clearT = 0, playT = 0, lastType = "mouse";
     let ptr = null, down = null, dragging = false, autoStopped = false;
+    let gWarm = 60, gSum = 0, gN = 0, perfFail = false;
     let inView = false, lost = false, failed = false, cardStatic = mqStatic.matches, padGlow = 0;
 
     // ---------- геометрія й текстури ----------
@@ -115,7 +121,7 @@
     }
     function extrude(shape, depth, bevel) {
         const g = new THREE.ExtrudeGeometry(shape, {
-            depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 4, curveSegments: 24,
+            depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 10,
         });
         g.translate(0, 0, -depth / 2);
         return g;
@@ -132,20 +138,13 @@
         draw(c.getContext("2d"), w, h);
         return new THREE.CanvasTexture(c);
     }
-    const haloTex = canvasTex(128, 128, (x, w, h) => {
-        const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
-        g.addColorStop(0, "rgba(255,255,255,1)");
-        g.addColorStop(1, "rgba(255,255,255,0)");
-        x.fillStyle = g;
-        x.fillRect(0, 0, w, h);
-    });
     const shadeHex = (hex, f) => {
         const n = parseInt(hex.slice(1), 16);
         return "rgb(" + [16, 8, 0].map((sh) => Math.round(((n >> sh) & 255) * f)).join(",") + ")";
     };
     // Екран: обкладинка цілком на сірому фоні (поки вантажиться, показуємо назву).
     function logoTex(g) {
-        const W = 512, H = 288;
+        const W = TEX_W, H = Math.round((TEX_W * 9) / 16);
         const tex = canvasTex(W, H, () => {});
         const x = tex.image.getContext("2d");
         const bg = () => {
@@ -154,7 +153,7 @@
         };
         bg();
         x.fillStyle = "#fff";
-        x.font = '600 44px "Lexend Deca", sans-serif';
+        x.font = `600 ${Math.round(W / 11.6)}px "Lexend Deca", sans-serif`;
         x.textAlign = "center";
         x.textBaseline = "middle";
         x.fillText(g.name, W / 2, H / 2);
@@ -171,14 +170,6 @@
         }
         return tex;
     }
-    const sprite = (color, opacity, size, z) => {
-        const s = new THREE.Sprite(
-            new THREE.SpriteMaterial({ map: haloTex, color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false })
-        );
-        s.scale.set(size, size, 1);
-        s.position.z = z;
-        return s;
-    };
     const makeHit = (w, h, d, data) => {
         const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ visible: false }));
         m.userData = data;
@@ -194,22 +185,34 @@
     };
 
     // ---------- об'єкти ----------
-    const disc = (r, hgt, mat, x, y, z) => {
-        const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, hgt, 28), mat);
-        m.rotation.x = Math.PI / 2;
-        m.position.set(x, y, z + hgt / 2);
-        return m;
+    const BGU = THREE.BufferGeometryUtils;
+    const gSlab = (w, h, d, x, y, z, rz = 0) => {
+        const g = new THREE.BoxGeometry(w, h, d);
+        g.rotateZ(rz);
+        g.translate(x, y, z + d / 2);
+        return g;
     };
-    const slab = (w, h, d, mat, x, y, z) => {
-        const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-        m.position.set(x, y, z + d / 2);
-        return m;
+    const gDisc = (r, hgt, x, y, z) => {
+        const g = new THREE.CylinderGeometry(r, r, hgt, 18);
+        g.rotateX(Math.PI / 2);
+        g.translate(x, y, z + hgt / 2);
+        return g;
     };
-
-    const ring = (r, tube, mat, x, y, z) => {
-        const m = new THREE.Mesh(new THREE.TorusGeometry(r, tube, 10, 36), mat);
-        m.position.set(x, y, z);
-        return m;
+    const gRing = (r, tube, x, y, z) => {
+        const g = new THREE.TorusGeometry(r, tube, 6, 22);
+        g.translate(x, y, z);
+        return g;
+    };
+    const gFlat = (shape, z, y = 0) => {
+        const g = new THREE.ShapeGeometry(shape);
+        g.translate(0, y, z);
+        return g;
+    };
+    const gTri = (size, rz, x, y, z) => {
+        const g = new THREE.CircleGeometry(size, 3);
+        g.rotateZ(rz);
+        g.translate(x, y, z);
+        return g;
     };
     // прямокутник з різними радіусами кутів: верхній лівий, верхній правий, нижній правий, нижній лівий
     function rrect(w, h, tl, tr, br, bl) {
@@ -225,20 +228,22 @@
         s.quadraticCurveTo(x, y, x + bl, y);
         return s;
     }
-    const decal = (w, h, tex, x, y, z) => {
-        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
-        m.position.set(x, y, z);
-        return m;
-    };
-    const letterTex = (ch, col) =>
-        canvasTex(64, 64, (x) => {
-            x.fillStyle = col;
-            x.font = '700 44px "Lexend Deca", sans-serif';
-            x.textAlign = "center";
-            x.textBaseline = "middle";
-            x.fillText(ch, 32, 36);
+    // зливає кольорові частини в один меш (vertex colors): мало draw call-ів
+    function bake(parts) {
+        const gs = parts.map(([geo, color]) => {
+            const g = geo.index ? geo.toNonIndexed() : geo;
+            g.deleteAttribute("uv");
+            const col = new THREE.Color(color), n = g.attributes.position.count, c = new Float32Array(n * 3);
+            for (let i = 0; i < n; i++) {
+                c[i * 3] = col.r;
+                c[i * 3 + 1] = col.g;
+                c[i * 3 + 2] = col.b;
+            }
+            g.setAttribute("color", new THREE.BufferAttribute(c, 3));
+            return g;
         });
-    const std = (color, roughness = 0.5) => new THREE.MeshStandardMaterial({ color, roughness });
+        return BGU.mergeBufferGeometries(gs);
+    }
     function collectTint(root) {
         const tint = [], seen = new Set();
         root.traverse((m) => {
@@ -250,63 +255,87 @@
         return tint;
     }
 
-    // Кишенькова консоль: двошарове тіло з великим заокругленням знизу праворуч, екран, хрестовина, A/B, динамік, світлодіод.
+    // Геометрія, спільна для всіх консолей: тіло з деталями злите в один меш.
+    let HH = null;
+    function handheldShared() {
+        if (HH) return HH;
+        const D = 0.14, B = 0.02, zf = D / 2 + B;
+        const parts = [
+            [extrude(rrect(1, 0.92, 0.1, 0.1, 0.3, 0.1), D, B), 0x383943],
+            [gFlat(rrect(0.94, 0.86, 0.08, 0.08, 0.27, 0.08), zf + 0.001), 0x43444f],
+            [gFlat(rrect(0.88, 0.54, 0.03, 0.03, 0.03, 0.03), zf + 0.003, 0.15), 0x101015],
+            [gSlab(0.3, 0.05, 0.1, -0.3, 0.46, -0.05), 0x2c2d36],
+            [gSlab(0.3, 0.05, 0.1, 0.3, 0.46, -0.05), 0x2c2d36],
+            [gSlab(0.14, 0.035, 0.06, 0, 0.465, -0.03), 0x24252d],
+            [gDisc(0.018, 0.006, -0.478, 0.3, zf), 0xe24b4a],
+            // D-pad: чаша, хрестовина, стрілки
+            [gDisc(0.11, 0.02, -0.3, -0.29, zf), 0x24252d],
+            [gSlab(0.17, 0.05, 0.03, -0.3, -0.29, zf + 0.02), 0x2c2d36],
+            [gSlab(0.05, 0.17, 0.03, -0.3, -0.29, zf + 0.02), 0x2c2d36],
+            // кнопка B з ободом, select/start
+            [gDisc(0.06, 0.03, 0.2, -0.29, zf), 0xa8a9b3],
+            [gRing(0.06, 0.008, 0.2, -0.29, zf + 0.03), 0x7d7e88],
+            [gSlab(0.08, 0.025, 0.02, -0.05, -0.38, zf, 0.5), 0x24252d],
+            [gSlab(0.08, 0.025, 0.02, 0.06, -0.38, zf, 0.5), 0x24252d],
+        ];
+        for (const [rz, dx, dy] of [[0, 0.065, 0], [Math.PI / 2, 0, 0.065], [Math.PI, -0.065, 0], [-Math.PI / 2, 0, -0.065]]) {
+            parts.push([gTri(0.014, rz, -0.3 + dx, -0.29 + dy, zf + 0.0505), 0x555664]);
+        }
+        const wheel = new THREE.CylinderGeometry(0.06, 0.06, 0.04, 14); // коліщатко гучності на правому боці
+        wheel.rotateZ(Math.PI / 2);
+        wheel.translate(0.51, 0.2, 0);
+        const jack = new THREE.CylinderGeometry(0.025, 0.025, 0.03, 12); // роз'єм навушників знизу
+        jack.translate(-0.3, -0.465, 0);
+        parts.push([wheel, 0x24252d], [jack, 0x1c1d24]);
+        HH = {
+            zf,
+            body: bake(parts),
+            rim: new THREE.ShapeGeometry(frameShape(0.92, 0.58, 0.02)),
+            screen: new THREE.PlaneGeometry(0.8, 0.45),
+            strip: new THREE.PlaneGeometry(0.62, 0.07),
+            stripTex: canvasTex(512, 58, (x, w, h) => {
+                x.fillStyle = "#eceef5";
+                x.font = '600 42px "Lexend Deca", sans-serif';
+                x.textAlign = "center";
+                x.textBaseline = "middle";
+                x.fillText("TheDeiw's Games", w / 2, h / 2);
+            }),
+        };
+        return HH;
+    }
+
+    // Кишенькова консоль: ~5 мешів (тіло, деталі кольору гри, підпис, рамка, екран).
     function makeHandheld(g, gi) {
         const { group, pivot } = rotGroup();
-        const glow = glowOf(g);
-        const D = 0.14, B = 0.02, zf = D / 2 + B;
-        pivot.add(new THREE.Mesh(extrude(rrect(1, 0.92, 0.1, 0.1, 0.3, 0.1), D, B), new THREE.MeshStandardMaterial({ color: 0x383943, roughness: 0.55, metalness: 0.05 })));
-        const plate = new THREE.Mesh(new THREE.ShapeGeometry(rrect(0.94, 0.86, 0.08, 0.08, 0.27, 0.08)), std(0x43444f, 0.6));
-        plate.position.z = zf + 0.001;
-        const dark = std(0x24252d), mid = std(0x2c2d36, 0.6);
-        const bezel = new THREE.Mesh(new THREE.PlaneGeometry(0.88, 0.54), new THREE.MeshBasicMaterial({ color: 0x101015 }));
-        bezel.position.set(0, 0.15, zf + 0.003);
-        pivot.add(plate, bezel);
-
-        // верхній край: плечові кнопки, перемикач живлення
-        pivot.add(slab(0.3, 0.05, 0.1, mid, -0.3, 0.46, -0.05), slab(0.3, 0.05, 0.1, mid, 0.3, 0.46, -0.05), slab(0.14, 0.035, 0.06, dark, 0, 0.465, -0.03));
-        // світлодіод і підпис під екраном
-        const led = new THREE.Mesh(new THREE.CircleGeometry(0.018, 16), new THREE.MeshBasicMaterial({ color: 0xe24b4a }));
-        led.position.set(-0.47, 0.3, zf + 0.003);
-        const strip = decal(0.5, 0.05, canvasTex(256, 26, (x, w, h) => {
-            x.fillStyle = "#8d8e99";
-            x.font = '500 16px "Lexend Deca", sans-serif';
-            x.textAlign = "center";
-            x.textBaseline = "middle";
-            x.fillText("THEDEIW  GAMES", w / 2, h / 2);
-        }), 0, -0.17, zf + 0.003);
-        pivot.add(led, strip);
-
-        // хрестовина на заглибленні, кнопки A (кольору гри) і B із літерами, select/start, динамік
-        const btnA = std(glow.clone(), 0.4), btnB = std(0xa8a9b3, 0.5);
-        const A = disc(0.06, 0.03, btnA, 0.34, -0.2, zf), Bb = disc(0.06, 0.03, btnB, 0.2, -0.29, zf);
-        const pills = [-0.05, 0.06].map((x) => {
-            const m = slab(0.08, 0.025, 0.02, dark, x, -0.38, zf);
-            m.rotation.z = 0.5;
-            return m;
-        });
-        const slits = [0, 1, 2, 3, 4].map((k) => {
-            const m = slab(0.1, 0.014, 0.012, dark, 0.26 + 0.04 * k, -0.42 + 0.025 * k, zf);
-            m.rotation.z = 0.7;
-            return m;
-        });
+        const glow = glowOf(g), S = handheldShared(), zf = S.zf;
+        const vc = () => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.05 });
+        const bodyMat = vc(), decoMat = vc();
+        pivot.add(new THREE.Mesh(S.body, bodyMat));
+        // деталі кольору гри: кнопка A з ободом і смужки обабіч підпису
         pivot.add(
-            disc(0.11, 0.02, dark, -0.3, -0.26, zf), slab(0.17, 0.05, 0.03, mid, -0.3, -0.26, zf + 0.02), slab(0.05, 0.17, 0.03, mid, -0.3, -0.26, zf + 0.02),
-            A, Bb, ...pills, ...slits,
-            decal(0.06, 0.06, letterTex("A", "#24252d"), 0.34, -0.2, zf + 0.032), decal(0.06, 0.06, letterTex("B", "#24252d"), 0.2, -0.29, zf + 0.032)
+            new THREE.Mesh(
+                bake([
+                    [gDisc(0.06, 0.03, 0.34, -0.2, zf), glow],
+                    [gRing(0.06, 0.008, 0.34, -0.2, zf + 0.03), glow.clone().multiplyScalar(0.6)],
+                    [gSlab(0.08, 0.014, 0.003, -0.42, -0.165, zf), glow],
+                    [gSlab(0.08, 0.014, 0.003, 0.42, -0.165, zf), glow],
+                ]),
+                decoMat
+            )
         );
-        const tint = collectTint(pivot);
+        const stripMat = new THREE.MeshBasicMaterial({ map: S.stripTex, transparent: true });
+        const strip = new THREE.Mesh(S.strip, stripMat);
+        strip.position.set(0, -0.165, zf + 0.003);
+        const tint = [[bodyMat, bodyMat.color.clone()], [decoMat, decoMat.color.clone()], [stripMat, stripMat.color.clone()]];
 
         const rimMat = new THREE.MeshBasicMaterial({ color: glow.clone() });
-        const rim = new THREE.Mesh(new THREE.ShapeGeometry(frameShape(0.92, 0.58, 0.02)), rimMat);
+        const rim = new THREE.Mesh(S.rim, rimMat);
         rim.position.set(0, 0.15, zf + 0.002);
         const still = logoTex(g);
         const screenMat = new THREE.MeshBasicMaterial({ map: still });
-        const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.45), screenMat);
+        const screen = new THREE.Mesh(S.screen, screenMat);
         screen.position.set(0, 0.15, zf + 0.004);
-        const glass = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.45), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05 }));
-        glass.position.set(0, 0.15, zf + 0.005);
-        pivot.add(rim, screen, glass, makeHit(1.1, 1.0, 0.4, { gi }));
+        pivot.add(strip, rim, screen, makeHit(1.1, 1.0, 0.4, { gi }));
 
         return { gi, group, pivot, glow, screenMat, rimMat, still, tint, s: 0, h: 0, depth: 1, dim: 1 };
     }
@@ -319,11 +348,9 @@
         const inner = new THREE.Group();
         flip.add(inner);
         pivot.add(flip);
-        const halo = sprite(0x464fee, 0.1, 3.2, -0.6);
-        group.add(halo);
         group.scale.setScalar(PAD_SCALE);
         group.position.y = 0.35;
-        const pad = { group, pivot, accent: new THREE.MeshStandardMaterial(), halo, tint: [], dim: 1, px: 0, py: 0 };
+        const pad = { group, pivot, accent: new THREE.MeshStandardMaterial(), tint: [], dim: 1, px: 0, py: 0 };
         const loader = new THREE.GLTFLoader();
         loader.setMeshoptDecoder(MeshoptDecoder);
         loader.load("assets/3d/gamepad.glb", (gltf) => {
@@ -342,6 +369,34 @@
                 }
                 if (o.isMesh) {
                     o.material.color.setScalar(0.75);
+                }
+            });
+            m.traverse((o) => {
+                if (o.isMesh && o.material.map && o.material.map.image) {
+                    const src = o.material.map.image, c = document.createElement("canvas");
+                    c.width = src.width;
+                    c.height = src.height;
+                    const x = c.getContext("2d");
+                    x.drawImage(src, 0, 0);
+                    const logo = new Image();
+                    logo.onload = () => {
+                        const k = c.width / 1024, sz = 65 * k; // місце колишнього логотипа Xbox: (640, 219) у текстурі 1024
+                        const t = document.createElement("canvas"); // біле лого перефарбовуємо в сірий
+                        t.width = t.height = Math.round(sz);
+                        const tx = t.getContext("2d");
+                        tx.drawImage(logo, 0, 0, t.width, t.height);
+                        tx.globalCompositeOperation = "source-in";
+                        tx.fillStyle = "#a8a9b3";
+                        tx.fillRect(0, 0, t.width, t.height);
+                        x.drawImage(t, 640 * k - sz / 2, 219 * k - sz / 2);
+                        const tex = new THREE.CanvasTexture(c);
+                        tex.flipY = false; // як у glTF
+                        tex.encoding = THREE.LinearEncoding;
+                        tex.anisotropy = 4;
+                        o.material.map = tex;
+                        o.material.needsUpdate = true;
+                    };
+                    logo.src = "assets/img/header/Logo_Min.svg";
                 }
             });
             pad.tint = collectTint(inner);
@@ -524,26 +579,63 @@
         camera.lookAt(target);
         camera.updateProjectionMatrix();
         camera.updateMatrixWorld();
+        // hero: камера (0, 0.8, 3), світло (-2, 2, 4), тобто відносно камери: ліворуч 2, вгору 1.2, назад 1 при відстані до моделі 3
+        const k = D / 3;
+        keyLight.position.copy(camera.position).addScaledVector(right, -2 * k).addScaledVector(up, 1.2 * k).addScaledVector(back, k);
     }
     function resize() {
         const w = stage.clientWidth, h = stage.clientHeight;
         if (!w || !h) return;
         W = w;
         H = h;
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprCap));
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         lay = layout(w / h);
         fit();
+        const p0 = toPx(new THREE.Vector3()), p1 = toPx(right);
+        const ppu = Math.abs(p1.x - p0.x) || 1; // пікселів на одиницю сцени
+        if (lay.compact) {
+            wrap.style.removeProperty("--games-card-w");
+        } else {
+            // відкрита консоль: лівий край на SIDE від краю, картка не ближче 40 px до неї
+            lay.detail.k = Math.max(0.5, Math.min(1.1, (W - 2 * SIDE - 40 - 380) / (ppu * OBJ_SCALE) - 1));
+            const objW = ppu * OBJ_SCALE * (1 + lay.detail.k);
+            lay.detail.x = (SIDE + objW / 2 - W / 2) / ppu;
+            wrap.style.setProperty("--games-card-w", Math.min(620, W - 2 * SIDE - 40 - objW) + "px");
+        }
         cardStatic = mqStatic.matches;
         renderCard(sel);
+    }
+
+    // Якщо кадри повільні (слабкий пристрій): спершу знижуємо роздільність, потім показуємо звичайний список.
+    function slowDown() {
+        if (dprCap > 1) {
+            dprCap = 1;
+            gWarm = 60;
+            resize();
+        } else {
+            perfFail = failed = true;
+            stop();
+            showFallback();
+        }
     }
 
     // ---------- кадр ----------
     function frame(now) {
         raf = requestAnimationFrame(frame);
-        const dt = Math.min((now - last) / 1000, 0.05);
+        const raw = (now - last) / 1000;
+        const dt = Math.min(raw, 0.05);
         last = now;
+        if (raw < 0.25) {
+            // governor: середній кадр понад ~26 мс (менше ~38 fps) протягом 90 кадрів після прогріву
+            if (gWarm > 0) gWarm--;
+            else if (++gN && (gSum += raw) !== 0 && gN >= 90) {
+                const avg = (gSum / gN) * 1000;
+                gSum = gN = 0;
+                if (avg > 26) slowDown();
+            }
+        }
         const f = 1 - Math.pow(0.001, dt); // згладжування ~ 0.11 за кадр при 60 fps
 
         if (sel < 0 && hoverIdx < 0 && !dragging) {
@@ -587,7 +679,6 @@
         // коли гру відкрито, геймпад темнішає й завмирає
         pad.dim += ((sel >= 0 ? 0.25 : 1) - pad.dim) * f;
         pad.tint.forEach(([m, base]) => m.color.copy(base).multiplyScalar(pad.dim));
-        pad.halo.material.opacity = 0.1 * pad.dim;
         if (sel < 0) {
             if (!reduce) padT += dt;
             const tx = ptr && ptr.type !== "touch" && !reduce ? ptr : null;
@@ -610,14 +701,14 @@
         raf = 0;
     }
     function update() {
-        if (renderer && lay && inView && !document.hidden && !lost) start();
+        if (renderer && lay && inView && !document.hidden && !lost && !perfFail) start();
         else stop();
     }
 
     // ---------- ініціалізація ----------
     function init() {
         try {
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !coarse });
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !coarse && !lowEnd });
         } catch (e) {
             failed = true;
             showFallback();
@@ -637,9 +728,8 @@
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
         scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-        const sun = new THREE.DirectionalLight(0xffffff, 0.7);
-        sun.position.set(-3, 6, 8);
-        scene.add(sun);
+        keyLight = new THREE.PointLight(0xffffff, 1.4); // як у hero: точкове світло зліва вгорі перед об'єктом
+        scene.add(keyLight);
 
         ringIdx = ringIndices(GAMES);
         ringIdx.forEach((gi) => {
